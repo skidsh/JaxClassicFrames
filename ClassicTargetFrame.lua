@@ -1,0 +1,1 @@
+ApplyClassicFrame(TargetFrame)
