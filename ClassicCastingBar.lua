@@ -5,7 +5,6 @@ local FocusFrame = FocusFrame;
 
 local function HookOnEventPlayer(self, event, ...)
     if (self.unit == nil) then return end
-    PermaHide(self.Background)
     self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
     if (self.unit == "player" or self.unit == "target" or self.unit == "focus") then
         self.Text:SetPoint("TOPLEFT", 0, 4)
@@ -91,10 +90,12 @@ end
 
 hooksecurefunc(PlayerCastingBarFrame, "SetLook", HookSetLook)
 PlayerCastingBarFrame:HookScript("OnEvent", HookOnEventPlayer)
+PermaHide(PlayerCastingBarFrame.Background)
 
 local function HookTargetFrame(frame)
     frame.spellbar:HookScript("OnEvent", HookOnEventTarget)
-    
+    PermaHide(frame.spellbar.Background)
+
     hooksecurefunc(frame.spellbar, "SetPoint", function(self)
         local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
         if (yOfs == -10) then

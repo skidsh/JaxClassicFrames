@@ -6,6 +6,11 @@ function PermaHide(frameToHide)
 end
 
 function ApplyClassicFrame(frame)
+	local contextual = frame.TargetFrameContent.TargetFrameContentContextual;
+	PermaHide(contextual.PrestigeBadge)
+	PermaHide(contextual.PrestigePortrait)
+	PermaHide(contextual.PvpIcon)
+
 	local function PositionTargetBars()
 		local powerColor = GetPowerBarColor(UnitPowerType(frame.unit))
 
@@ -20,18 +25,18 @@ function ApplyClassicFrame(frame)
 		FrameHealthBarMask:ClearAllPoints()
 		FrameHealthBar:ClearAllPoints()
 		FrameHealthBarMask:SetSize(240, 17)
-		FrameHealthBarMask:SetPoint("TOPLEFT", 0, -44);
+		FrameHealthBarMask:SetPoint("TOPLEFT", 0, -46);
 		FrameHealthBar:SetSize(120, 9);
-		FrameHealthBar:SetPoint("TOPLEFT", 26, -47);
+		FrameHealthBar:SetPoint("TOPLEFT", 26, -50);
 		FrameHealthBarTexture:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
 		FrameHealthBar:SetStatusBarColor(0, 1, 0);
 
 		FrameManaBarMask:ClearAllPoints()
 		FrameManaBar:ClearAllPoints()
 		FrameManaBarMask:SetSize(250, 27)
-		FrameManaBarMask:SetPoint("TOPLEFT", -40, -48);
+		FrameManaBarMask:SetPoint("TOPLEFT", -40, -50);
 		FrameManaBar:SetSize(120, 9);
-		FrameManaBar:SetPoint("TOPLEFT", 25, -58);
+		FrameManaBar:SetPoint("TOPLEFT", 25, -61);
 		FrameManaBarTexture:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
 		FrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
 
@@ -39,7 +44,7 @@ function ApplyClassicFrame(frame)
 		local frameNameText = frame.TargetFrameContent.TargetFrameContentMain.Name;
 		frameNameText:ClearAllPoints()
 		frameNameText:SetJustifyH("CENTER")
-		frameNameText:SetPoint("TOPLEFT", frame.TargetFrameContent.TargetFrameContentMain, "TOPLEFT", 40, -31)
+		frameNameText:SetPoint("TOPLEFT", frame.TargetFrameContent.TargetFrameContentMain, "TOPLEFT", 40, -33)
 	end
 
 	hooksecurefunc(frame, "CheckClassification", function()
@@ -48,7 +53,7 @@ function ApplyClassicFrame(frame)
 			frame.TargetFrameContainer.ClassicTexture = frame.TargetFrameContainer:CreateTexture(nil, "ARTWORK")
 		end
 		frame.TargetFrameContainer.ClassicTexture:ClearAllPoints()
-		frame.TargetFrameContainer.ClassicTexture:SetPoint("TOPLEFT", frame.TargetFrameContainer, "TOPLEFT", 20, -5)
+		frame.TargetFrameContainer.ClassicTexture:SetPoint("TOPLEFT", frame.TargetFrameContainer, "TOPLEFT", 20, -7)
 		frame.TargetFrameContainer.ClassicTexture:SetSize(232, 100)
 		frame.TargetFrameContainer.ClassicTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
 		--<TexCoords left="0.09375" right="1.0" top="0" bottom="0.78125"/>
@@ -56,14 +61,11 @@ function ApplyClassicFrame(frame)
 		frame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Hide()
 		frame.TargetFrameContainer.Portrait:SetSize(64, 64)
 		frame.TargetFrameContainer:SetFrameStrata("MEDIUM")
+		frame.TargetFrameContainer.BossPortraitFrameTexture:SetDrawLayer("BACKGROUND", 1)
 		frame.TargetFrameContent.TargetFrameContentContextual:SetFrameStrata("MEDIUM")
 	end)
 
 	hooksecurefunc(frame, "Update", function()
-		local contextual = frame.TargetFrameContent.TargetFrameContentContextual;
-		PermaHide(contextual.PrestigeBadge)
-		PermaHide(contextual.PrestigePortrait)
-		PermaHide(contextual.PvpIcon)
 		PositionTargetBars();
 		if (frame.totFrame) then
 			frame.totFrame:ClearAllPoints()
@@ -104,15 +106,20 @@ function ApplyClassicFrame(frame)
 	hooksecurefunc(frame, "CheckLevel", function()
 		local contextual = frame.TargetFrameContent.TargetFrameContentContextual
 		local levelText = frame.TargetFrameContent.TargetFrameContentMain.LevelText;
+		local petBattle = contextual.PetBattleIcon;
 		local highLevelTexture = contextual.HighLevelTexture;
 
 		highLevelTexture:ClearAllPoints();
 		highLevelTexture:SetParent(contextual)
-		highLevelTexture:SetPoint("CENTER", contextual, "CENTER", 81, -22)
+		highLevelTexture:SetPoint("CENTER", contextual, "CENTER", 81, -24)
+
+		petBattle:ClearAllPoints();
+		petBattle:SetParent(contextual)
+		petBattle:SetPoint("CENTER", contextual, "CENTER", 81, 24)
 
 		levelText:ClearAllPoints();
 		levelText:SetParent(contextual)
-		levelText:SetPoint("CENTER", contextual, "CENTER", 81, -22)
+		levelText:SetPoint("CENTER", contextual, "CENTER", 81, -24)
 	end)
 
 	hooksecurefunc(frame, "CreateTargetofTarget", function()
