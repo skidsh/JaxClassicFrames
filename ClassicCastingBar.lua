@@ -108,7 +108,7 @@ end
 HookTargetFrame(TargetFrame);
 HookTargetFrame(FocusFrame);
 
-hooksecurefunc("CompactUnitFrame_SetUnit", function(frame, unit)
+hooksecurefunc("CompactUnitFrame_OnLoad", function(frame, unit)
     if ( frame.castBar ) then
         frame.castBar:HookScript("OnEvent", HookOnEventPlayer)
     end
