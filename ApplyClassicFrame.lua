@@ -51,6 +51,7 @@ function ApplyClassicFrame(frame)
 		frame.TargetFrameContent.TargetFrameContentMain.ManaBar.RightText:SetPoint("RIGHT", frame.TargetFrameContent.TargetFrameContentMain.ManaBar, "RIGHT", -4, 0)
 	end
 
+
 	hooksecurefunc(frame, "CheckClassification", function()
 		frame.TargetFrameContainer.FrameTexture:Hide()
 		if (frame.TargetFrameContainer.ClassicTexture == nil) then
@@ -69,29 +70,49 @@ function ApplyClassicFrame(frame)
 		frame.TargetFrameContent.TargetFrameContentContextual:SetFrameStrata("MEDIUM")
 	end)
 
+	local function fixDebuffs()
+		local frameName = frame.totFrame:GetName();
+		local suffix = "Debuff";
+		local frameNameWithSuffix = frameName..suffix;
+		for i=1,4 do
+			local debuffName = frameNameWithSuffix..i;
+			_G[debuffName]:ClearAllPoints()
+			if (i == 1) then
+				_G[debuffName]:SetPoint("TOPLEFT", frame.totFrame, "TOPRIGHT", -23, -8)
+			elseif (i==2) then
+				_G[debuffName]:SetPoint("TOPLEFT", frame.totFrame, "TOPRIGHT", -10, -8)
+			elseif (i==3) then
+				_G[debuffName]:SetPoint("TOPLEFT", frame.totFrame, "TOPRIGHT", -23, -21)
+			elseif (i==4) then
+				_G[debuffName]:SetPoint("TOPLEFT", frame.totFrame, "TOPRIGHT", -10, -21)
+			end
+		end
+	end
+
 	hooksecurefunc(frame, "Update", function()
 		PositionTargetBars();
 		if (frame.totFrame) then
 			frame.totFrame:ClearAllPoints()
-			frame.totFrame:SetPoint("TOPLEFT", frame, "BOTTOMRIGHT", -55, 17)
+			frame.totFrame:SetPoint("TOPLEFT", frame, "BOTTOMRIGHT", -83, 17)
 			frame.totFrame.FrameTexture:Hide()
 
-			frame.totFrame.HealthBarMask:ClearAllPoints()
-			frame.totFrame.HealthBarMask:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 0, -13)
-			frame.totFrame.HealthBar:SetFrameLevel(1)
+			local powerColor = GetPowerBarColor(UnitPowerType(frame.totFrame.unit))
+
+			frame.totFrame.HealthBarMask:Hide()
 			frame.totFrame.HealthBar:ClearAllPoints()
-			frame.totFrame.HealthBar:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 44, -13)
-			frame.totFrame.HealthBar:SetSize(46, 9)
+			frame.totFrame.HealthBar:SetPoint("TOPRIGHT", -29, -15)
+			frame.totFrame.HealthBar:SetSize(46, 7)
 			frame.totFrame.HealthBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+			frame.totFrame.HealthBar:SetStatusBarColor(0, 1, 0);
+			frame.totFrame.HealthBar:SetFrameLevel(1)
 
-
-			frame.totFrame.ManaBarMask:ClearAllPoints()
-			frame.totFrame.ManaBarMask:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 0, -18)
-			frame.totFrame.ManaBar:SetFrameLevel(1)
+			frame.totFrame.ManaBarMask:Hide()
 			frame.totFrame.ManaBar:ClearAllPoints()
-			frame.totFrame.ManaBar:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 44, -23)
-			frame.totFrame.ManaBar:SetSize(46, 9)
+			frame.totFrame.ManaBar:SetPoint("TOPRIGHT", -29, -23)
+			frame.totFrame.ManaBar:SetSize(46, 7)
 			frame.totFrame.ManaBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+			frame.totFrame.ManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+			frame.totFrame.ManaBar:SetFrameLevel(1)
 
 			if (frame.totFrame.ClassicTexture == nil) then
 				frame.totFrame.ClassicTexture = frame.totFrame:CreateTexture(nil, "BORDER")
@@ -102,13 +123,12 @@ function ApplyClassicFrame(frame)
 			-- <TexCoords left="0.015625" right="0.7265625" top="0" bottom="0.703125"/>
 			frame.totFrame.ClassicTexture:SetTexCoord(0.015625, 0.7265625, 0, 0.703125)
 			frame.totFrame.ClassicTexture:SetSize(93, 45)
+
+			frame.totFrame.name:ClearAllPoints();
+			frame.totFrame.name:SetPoint("BOTTOMLEFT", 42, 5)
+			fixDebuffs()
 		end
 	end)
-
-	hooksecurefunc("TargetHealthCheck", function()
-		PositionTargetBars();
-	end)
-
 
 	hooksecurefunc(frame, "CheckLevel", function()
 		local contextual = frame.TargetFrameContent.TargetFrameContentContextual
@@ -134,4 +154,14 @@ function ApplyClassicFrame(frame)
 			frame.totFrame.FrameTexture:Hide()
 		end
 	end)
+
+	if (frame.totFrame) then
+		frame.totFrame:RegisterEvent("UNIT_AURA")
+		frame.totFrame:HookScript("OnEvent", function(s, e, ...)
+			local arg1 = ...;
+			if (UnitIsUnit(arg1, s.unit)) then
+				RefreshDebuffs(s, s.unit, nil, nil, true)	
+			end
+		end)
+	end
 end
