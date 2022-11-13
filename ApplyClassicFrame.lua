@@ -159,8 +159,10 @@ function ApplyClassicFrame(frame)
 		frame.totFrame:RegisterEvent("UNIT_AURA")
 		frame.totFrame:HookScript("OnEvent", function(s, e, ...)
 			local arg1 = ...;
-			if (UnitIsUnit(arg1, s.unit)) then
-				RefreshDebuffs(s, s.unit, nil, nil, true)	
+			if ((not (arg1 == "")) and (not (arg1 == nil)) and
+				(not (s.unit == "")) and (not (s.unit == nil)) and
+				 UnitIsUnit(arg1, s.unit)) then
+				RefreshDebuffs(s, s.unit, nil, nil, true)
 			end
 		end)
 	end
