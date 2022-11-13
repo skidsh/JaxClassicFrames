@@ -11,33 +11,27 @@ function ApplyClassicFrame(frame)
 	PermaHide(contextual.PrestigePortrait)
 	PermaHide(contextual.PvpIcon)
 
+	frame.Background = frame:CreateTexture(nil, "ARTWORK");
+	frame.Background:SetPoint("TOPLEFT", frame, "TOPLEFT", 26, -29);
+	frame.Background:SetSize(119, 41)
+	frame.Background:SetColorTexture(0, 0, 0, 0.5)
+
 	local function PositionTargetBars()
 		local powerColor = GetPowerBarColor(UnitPowerType(frame.unit))
 
 		local FrameManaBar = frame.TargetFrameContent.TargetFrameContentMain.ManaBar;
-		local FrameManaBarMask = frame.TargetFrameContent.TargetFrameContentMain.ManaBarMask;
-		local FrameManaBarTexture = frame.TargetFrameContent.TargetFrameContentMain.ManaBar.ManaBarTexture
-
 		local FrameHealthBar = frame.TargetFrameContent.TargetFrameContentMain.HealthBar;
-		local FrameHealthBarMask = frame.TargetFrameContent.TargetFrameContentMain.HealthBarMask;
-		local FrameHealthBarTexture = frame.TargetFrameContent.TargetFrameContentMain.HealthBar.HealthBarTexture
 
-		FrameHealthBarMask:ClearAllPoints()
 		FrameHealthBar:ClearAllPoints()
-		FrameHealthBarMask:SetSize(240, 17)
-		FrameHealthBarMask:SetPoint("TOPLEFT", 0, -46);
-		FrameHealthBar:SetSize(120, 9);
-		FrameHealthBar:SetPoint("TOPLEFT", 26, -50);
-		FrameHealthBarTexture:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
+		FrameHealthBar:SetSize(119, 12);
+		FrameHealthBar:SetPoint("TOPLEFT", 26, -48);
+		FrameHealthBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
 		FrameHealthBar:SetStatusBarColor(0, 1, 0);
 
-		FrameManaBarMask:ClearAllPoints()
 		FrameManaBar:ClearAllPoints()
-		FrameManaBarMask:SetSize(250, 27)
-		FrameManaBarMask:SetPoint("TOPLEFT", -40, -50);
-		FrameManaBar:SetSize(120, 9);
-		FrameManaBar:SetPoint("TOPLEFT", 25, -61);
-		FrameManaBarTexture:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
+		FrameManaBar:SetSize(119, 12);
+		FrameManaBar:SetPoint("TOPLEFT", 26, -59);
+		FrameManaBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
 		FrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
 
 
@@ -45,6 +39,16 @@ function ApplyClassicFrame(frame)
 		frameNameText:ClearAllPoints()
 		frameNameText:SetJustifyH("CENTER")
 		frameNameText:SetPoint("TOPLEFT", frame.TargetFrameContent.TargetFrameContentMain, "TOPLEFT", 40, -33)
+
+
+		FrameHealthBar.TextString:SetParent(frame.TargetFrameContainer)
+		FrameManaBar.TextString:SetParent(frame.TargetFrameContainer)
+		FrameHealthBar.LeftText:SetParent(frame.TargetFrameContainer)
+		FrameManaBar.RightText:SetParent(frame.TargetFrameContainer)
+		FrameHealthBar.RightText:SetParent(frame.TargetFrameContainer)
+		FrameManaBar.LeftText:SetParent(frame.TargetFrameContainer)
+
+		frame.TargetFrameContent.TargetFrameContentMain.ManaBar.RightText:SetPoint("RIGHT", frame.TargetFrameContent.TargetFrameContentMain.ManaBar, "RIGHT", -4, 0)
 	end
 
 	hooksecurefunc(frame, "CheckClassification", function()
@@ -78,6 +82,8 @@ function ApplyClassicFrame(frame)
 			frame.totFrame.HealthBar:ClearAllPoints()
 			frame.totFrame.HealthBar:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 44, -13)
 			frame.totFrame.HealthBar:SetSize(46, 9)
+			frame.totFrame.HealthBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+
 
 			frame.totFrame.ManaBarMask:ClearAllPoints()
 			frame.totFrame.ManaBarMask:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 0, -18)
@@ -85,6 +91,7 @@ function ApplyClassicFrame(frame)
 			frame.totFrame.ManaBar:ClearAllPoints()
 			frame.totFrame.ManaBar:SetPoint("TOPLEFT", frame.totFrame, "TOPLEFT", 44, -23)
 			frame.totFrame.ManaBar:SetSize(46, 9)
+			frame.totFrame.ManaBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
 
 			if (frame.totFrame.ClassicTexture == nil) then
 				frame.totFrame.ClassicTexture = frame.totFrame:CreateTexture(nil, "BORDER")

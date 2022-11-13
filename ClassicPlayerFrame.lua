@@ -7,6 +7,15 @@ local PlayerLevelText = PlayerLevelText
 local PlayerHitIndicator = PlayerHitIndicator
 local PlayerFrameManaBar = PlayerFrameManaBar
 local PlayerFrameHealthBar = PlayerFrameHealthBar
+local SetTextStatusBarText = SetTextStatusBarText
+local PlayerFrameManaBarText = PlayerFrameManaBarText
+local PlayerFrameHealthBarText = PlayerFrameHealthBarText
+local PlayerFrameManaBarTextLeft = PlayerFrameManaBarTextLeft
+local PlayerFrameManaBarTextRight = PlayerFrameManaBarTextRight
+local PlayerFrameHealthBarTextLeft = PlayerFrameHealthBarTextLeft
+local PlayerFrameHealthBarTextRight = PlayerFrameHealthBarTextRight
+local ranOnce = false
+
 
 local function updateBarTexture(self, texture)	
 	if (texture == "Interface\\TargetingFrame\\UI-StatusBar") then return end
@@ -35,6 +44,33 @@ PlayerFrame.PlayerFrameContainer:SetFrameLevel(4)
 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual:SetFrameLevel(5)
 PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetSize(64, 64)
 
+PlayerFrameHealthBarText:SetParent(PlayerFrame.PlayerFrameContainer)
+PlayerFrameManaBarText:SetParent(PlayerFrame.PlayerFrameContainer)
+PlayerFrameHealthBarTextLeft:SetParent(PlayerFrame.PlayerFrameContainer)
+PlayerFrameManaBarTextLeft:SetParent(PlayerFrame.PlayerFrameContainer)
+PlayerFrameHealthBarTextRight:SetParent(PlayerFrame.PlayerFrameContainer)
+PlayerFrameManaBarTextRight:SetParent(PlayerFrame.PlayerFrameContainer)
+
+PlayerFrame.Background = PlayerFrame:CreateTexture(nil, "ARTWORK");
+PlayerFrame.Background:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 86, -26);
+PlayerFrame.Background:SetSize(119, 41)
+PlayerFrame.Background:SetColorTexture(0, 0, 0, 0.5)
+
+local function RunOncePlayer()
+	if (not ranOnce) then
+		ranOnce = true
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture);
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarMask)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarMask)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.PlayerFrameHealthBarAnimatedLoss)
+		PermaHide(PlayerFrameManaBar.FeedbackFrame)
+		PermaHide(PlayerFrame.threatIndicator)
+	end
+end
+
 local function HookBars(frameToHook)
 	updateBarTexture(frameToHook);
 	updateBarColor(frameToHook);
@@ -45,28 +81,13 @@ end
 HookBars(PlayerFrameHealthBar)
 HookBars(PlayerFrameManaBar)
 
-hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
-	PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge)
-	PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait)
-	PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon)
- end)
+hooksecurefunc("PlayerFrame_ToPlayerArt", function()
+	RunOncePlayer()
+	PlayerFrameHealthBar:SetSize(119, 12);
+	PlayerFrameHealthBar:SetPoint("TOPLEFT", 88, -46);
 
- hooksecurefunc("PlayerFrame_ToPlayerArt", function()
-	PlayerFrameHealthBar:SetSize(119, 8);
-	PlayerFrameHealthBar:SetPoint("TOPLEFT", 88, -48);
-
-	PlayerFrameManaBar:SetSize(119, 9);
-	PlayerFrameManaBar:SetPoint("TOPLEFT", 88, -59);
-
-	local manaBarMask = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarMask;
-	manaBarMask:SetAtlas("")
-	manaBarMask:SetWidth(121);
-	manaBarMask:SetHeight(13);
-	manaBarMask:SetPoint("TOPLEFT", manaBarMask:GetParent(), "TOPLEFT", 86, -56);
- end)
-
- hooksecurefunc("PlayerFrame_UpdateStatus", function()
-	PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture);
+	PlayerFrameManaBar:SetSize(119, 12);
+	PlayerFrameManaBar:SetPoint("TOPLEFT", 88, -57);
  end)
 
  hooksecurefunc("PlayerFrame_UpdatePlayerNameTextAnchor", function()

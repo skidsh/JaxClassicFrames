@@ -1,4 +1,4 @@
-local ClearCastOnInterrupt = false;
+local ClearCastOnInterrupt = true;
 local PlayerCastingBarFrame = PlayerCastingBarFrame
 local TargetFrame = TargetFrame;
 local FocusFrame = FocusFrame;
@@ -6,7 +6,11 @@ local FocusFrame = FocusFrame;
 local function HookOnEventPlayer(self, event, ...)
     if (self.unit == nil) then return end
     self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    if (self.unit == "player" or self.unit == "target" or self.unit == "focus") then
+    if (self.unit == "player") then        
+        self.Text:SetPoint("TOPLEFT", 0, 2)
+        self.Text:SetPoint("TOPRIGHT", 0, 2)
+    end
+    if (self.unit == "target" or self.unit == "focus") then
         self.Text:SetPoint("TOPLEFT", 0, 4)
         self.Text:SetPoint("TOPRIGHT", 0, 4)
     end
@@ -22,10 +26,11 @@ local function HookOnEventPlayer(self, event, ...)
     end
     if ( self.barType == "interrupted" ) then
         self:SetStatusBarColor(1, 0, 0, 1);
+        self.Spark:Show()
         if (ClearCastOnInterrupt) then
             self:SetValue(100)
         end
-        self:HideSpark()
+       -- self:HideSpark()
     elseif (self.barType == "channel" or event == "UNIT_SPELLCAST_STOP") then
         self:SetStatusBarColor(0, 1, 0, 1);
     else
@@ -63,12 +68,11 @@ local function HookOnEventTarget(self, event, ...)
 end
 local function HookSetLook(self, look)
     self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    PermaHide(self.Background)
     if ( look == "CLASSIC" ) then
         -- self.Flash = false
         self:SetSize(195, 13)
         self.Border:ClearAllPoints()
-        self.Border:SetPoint("TOP", 0, 28)
+        self.Border:SetPoint("TOP", 0, 26)
         self.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border")
         self.Border:SetSize(256, 64)
         self.BorderShield:SetTexture("Interface\\CastingBar\\UI-CastingBar-Small-Shield")
@@ -76,7 +80,7 @@ local function HookSetLook(self, look)
         self.BorderShield:ClearAllPoints()
         self.BorderShield:SetPoint("TOP", 0, 28)
         self.Text:ClearAllPoints()
-        self.Text:SetPoint("TOPLEFT", 0, 4)
+        self.Text:SetPoint("TOPLEFT", 0, 2)
         self.TextBorder:ClearAllPoints()
         self.TextBorder:SetPoint("TOPLEFT", 0, 0)
         self.TextBorder:SetPoint("BOTTOMRIGHT", 0, 0)
