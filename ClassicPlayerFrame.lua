@@ -68,6 +68,9 @@ local function RunOncePlayer()
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.PlayerFrameHealthBarAnimatedLoss)
 		PermaHide(PlayerFrameManaBar.FeedbackFrame)
 		PermaHide(PlayerFrame.threatIndicator)
+		if (GetCVar("comboPointLocation") == "1") then
+			PermaHide(ComboPointPlayerFrame)
+		end
 	end
 end
 

@@ -15,7 +15,11 @@ function ApplyClassicFrame(frame)
 	frame.Background:SetPoint("TOPLEFT", frame, "TOPLEFT", 26, -29);
 	frame.Background:SetSize(119, 41)
 	frame.Background:SetColorTexture(0, 0, 0, 0.5)
-
+	
+	if (GetCVar("comboPointLocation") == "1") then
+		ComboFrame:SetPoint("TOPRIGHT", TargetFrame, -25, -20)
+	end
+	
 	local function PositionTargetBars()
 		local powerColor = GetPowerBarColor(UnitPowerType(frame.unit))
 
