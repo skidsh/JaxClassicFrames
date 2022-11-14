@@ -10,6 +10,7 @@ function ApplyClassicFrame(frame)
 	PermaHide(contextual.PrestigeBadge)
 	PermaHide(contextual.PrestigePortrait)
 	PermaHide(contextual.PvpIcon)
+	PermaHide(frame.TargetFrameContainer.Flash)
 
 	frame.Background = frame:CreateTexture(nil, "ARTWORK");
 	frame.Background:SetPoint("TOPLEFT", frame, "TOPLEFT", 26, -29);
@@ -35,29 +36,56 @@ function ApplyClassicFrame(frame)
 		FrameManaBar:ClearAllPoints()
 		FrameManaBar:SetSize(119, 12);
 		FrameManaBar:SetPoint("TOPLEFT", 26, -59);
-		FrameManaBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-		FrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
 
+		local atlas = GetAtlasForBar(FrameManaBar)
+
+		if (atlas) then
+			if (FrameManaBar.SetStatusBarAtlas) then
+				FrameManaBar:SetStatusBarAtlas(atlas)
+			end
+			FrameManaBar:SetStatusBarColor(1, 1, 1)
+		else			
+			FrameManaBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+			FrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+		end
 
 		local frameNameText = frame.TargetFrameContent.TargetFrameContentMain.Name;
 		frameNameText:ClearAllPoints()
 		frameNameText:SetJustifyH("CENTER")
-		frameNameText:SetPoint("TOPLEFT", frame.TargetFrameContent.TargetFrameContentMain, "TOPLEFT", 40, -33)
-
+		frameNameText:SetPoint("TOPLEFT", frame.TargetFrameContainer, "TOPLEFT", 40, -33)
+		frameNameText:SetParent(frame.TargetFrameContainer)
 
 		FrameHealthBar.TextString:SetParent(frame.TargetFrameContainer)
-		FrameManaBar.TextString:SetParent(frame.TargetFrameContainer)
-		FrameHealthBar.LeftText:SetParent(frame.TargetFrameContainer)
-		FrameManaBar.RightText:SetParent(frame.TargetFrameContainer)
 		FrameHealthBar.RightText:SetParent(frame.TargetFrameContainer)
-		FrameManaBar.LeftText:SetParent(frame.TargetFrameContainer)
+		FrameHealthBar.LeftText:SetParent(frame.TargetFrameContainer)
 
+		FrameManaBar.TextString:SetParent(frame.TargetFrameContainer)
+		FrameManaBar.RightText:SetParent(frame.TargetFrameContainer)
+		FrameManaBar.LeftText:SetParent(frame.TargetFrameContainer)
+		
 		frame.TargetFrameContent.TargetFrameContentMain.ManaBar.RightText:SetPoint("RIGHT", frame.TargetFrameContent.TargetFrameContentMain.ManaBar, "RIGHT", -4, 0)
 	end
 
+	local function CreateNameBackground()
+		if (frame.nameBackground == nil) then
+			frame.nameBackground = frame.TargetFrameContainer:CreateTexture(nil, "BACKGROUND")
+		end
+
+		frame.nameBackground:SetSize(119, 19)
+		frame.nameBackground:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-LevelBackground")
+		frame.nameBackground:ClearAllPoints()
+		frame.nameBackground:SetPoint("TOPRIGHT", frame.TargetFrameContent.TargetFrameContentMain, "TOPRIGHT", -88, -30)
+		if ( not UnitPlayerControlled(frame.unit) and UnitIsTapDenied(frame.unit) ) then
+			frame.nameBackground:SetVertexColor(0.5, 0.5, 0.5);
+		else
+			local r,g,b = UnitSelectionColor(frame.unit)
+			frame.nameBackground:SetVertexColor(r,g,b);
+		end
+	end
 
 	hooksecurefunc(frame, "CheckClassification", function()
 		frame.TargetFrameContainer.FrameTexture:Hide()
+		CreateNameBackground()
 		if (frame.TargetFrameContainer.ClassicTexture == nil) then
 			frame.TargetFrameContainer.ClassicTexture = frame.TargetFrameContainer:CreateTexture(nil, "ARTWORK")
 		end
@@ -158,6 +186,11 @@ function ApplyClassicFrame(frame)
 			frame.totFrame.FrameTexture:Hide()
 		end
 	end)
+	
+	frame:HookScript("OnEvent", function(s, e, ...)
+		PositionTargetBars()
+	end)
+
 
 	if (frame.totFrame) then
 		frame.totFrame:RegisterEvent("UNIT_AURA")

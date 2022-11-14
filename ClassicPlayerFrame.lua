@@ -16,11 +16,39 @@ local PlayerFrameHealthBarTextLeft = PlayerFrameHealthBarTextLeft
 local PlayerFrameHealthBarTextRight = PlayerFrameHealthBarTextRight
 local ranOnce = false
 
-
-local function updateBarTexture(self, texture)	
-	if (texture == "Interface\\TargetingFrame\\UI-StatusBar") then return end
-	self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+function GetAtlasForBar(self)
+	local atlas = nil
+	if (self.powerType and (self.powerType >= 11 or self.powerType == 8)) then
+		atlas = PowerBarColor[self.powerType].atlas
+	end
+	return atlas
 end
+
+local function updateBarTexture(self, texture)
+	local atlas = GetAtlasForBar(self)
+	if (atlas) then
+		if (self.SetStatusBarAtlas) then
+			self:SetStatusBarAtlas(atlas)
+		end
+	else
+		if (texture == "Interface\\TargetingFrame\\UI-StatusBar") then return end
+		self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+	end
+end
+local function updateManaBarColor(self, r, g, b, a)
+	local color = {};
+	color.r = 1;
+	color.g = 1;
+	color.b = 1;
+	local atlas = GetAtlasForBar(self)
+	if (not atlas and self.powerType) then
+		color = GetPowerBarColor(self.powerType)
+	end
+	if (color.r ~= r or color.g ~= g or color.b ~= b) then
+		self:SetStatusBarColor(color.r, color.g, color.b)
+	end
+end
+
 local function updateBarColor(self, r, g, b, a)
 	local color = {};
 	color.r = 0;
@@ -74,15 +102,15 @@ local function RunOncePlayer()
 	end
 end
 
-local function HookBars(frameToHook)
+local function HookBars(frameToHook, colorHook)
 	updateBarTexture(frameToHook);
-	updateBarColor(frameToHook);
+	colorHook(frameToHook);
 	hooksecurefunc(frameToHook, "SetStatusBarTexture", updateBarTexture)
-	hooksecurefunc(frameToHook, "SetStatusBarColor", updateBarColor)
+	hooksecurefunc(frameToHook, "SetStatusBarColor", updateManaBarColor)
 end
 
-HookBars(PlayerFrameHealthBar)
-HookBars(PlayerFrameManaBar)
+HookBars(PlayerFrameHealthBar, updateBarColor)
+HookBars(PlayerFrameManaBar, updateManaBarColor)
 
 hooksecurefunc("PlayerFrame_ToPlayerArt", function()
 	RunOncePlayer()
