@@ -102,15 +102,17 @@ local function RunOncePlayer()
 	end
 end
 
-local function HookBars(frameToHook, colorHook)
+local function HookBars(frameToHook, colorHook, hookColor)
 	updateBarTexture(frameToHook);
 	colorHook(frameToHook);
 	hooksecurefunc(frameToHook, "SetStatusBarTexture", updateBarTexture)
-	hooksecurefunc(frameToHook, "SetStatusBarColor", updateManaBarColor)
+	if (hookColor) then
+		hooksecurefunc(frameToHook, "SetStatusBarColor", colorHook)
+	end
 end
 
 HookBars(PlayerFrameHealthBar, updateBarColor)
-HookBars(PlayerFrameManaBar, updateManaBarColor)
+HookBars(PlayerFrameManaBar, updateManaBarColor, true)
 
 hooksecurefunc("PlayerFrame_ToPlayerArt", function()
 	RunOncePlayer()

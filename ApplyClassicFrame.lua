@@ -16,7 +16,8 @@ function ApplyClassicFrame(frame)
 	frame.Background:SetPoint("TOPLEFT", frame, "TOPLEFT", 26, -29);
 	frame.Background:SetSize(119, 41)
 	frame.Background:SetColorTexture(0, 0, 0, 0.5)
-	
+	frame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarColor(0, 1, 0);
+
 	if (GetCVar("comboPointLocation") == "1") then
 		ComboFrame:SetPoint("TOPRIGHT", TargetFrame, -25, -20)
 	end
@@ -31,7 +32,6 @@ function ApplyClassicFrame(frame)
 		FrameHealthBar:SetSize(119, 12);
 		FrameHealthBar:SetPoint("TOPLEFT", 26, -48);
 		FrameHealthBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-		FrameHealthBar:SetStatusBarColor(0, 1, 0);
 
 		FrameManaBar:ClearAllPoints()
 		FrameManaBar:SetSize(119, 12);
@@ -84,9 +84,9 @@ function ApplyClassicFrame(frame)
 	end
 
 	hooksecurefunc(frame, "CheckClassification", function()
-		frame.TargetFrameContainer.FrameTexture:Hide()
 		CreateNameBackground()
 		if (frame.TargetFrameContainer.ClassicTexture == nil) then
+			frame.TargetFrameContainer.FrameTexture:Hide()
 			frame.TargetFrameContainer.ClassicTexture = frame.TargetFrameContainer:CreateTexture(nil, "ARTWORK")
 		end
 		frame.TargetFrameContainer.ClassicTexture:ClearAllPoints()
@@ -95,6 +95,7 @@ function ApplyClassicFrame(frame)
 		frame.TargetFrameContainer.ClassicTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
 		--<TexCoords left="0.09375" right="1.0" top="0" bottom="0.78125"/>
 		frame.TargetFrameContainer.ClassicTexture:SetTexCoord(0.09375, 1, 0, 0.78125)
+		frame.TargetFrameContainer.FrameTexture = frame.TargetFrameContainer.ClassicTexture
 		frame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Hide()
 		frame.TargetFrameContainer.Portrait:SetSize(64, 64)
 		frame.TargetFrameContainer:SetFrameStrata("MEDIUM")
