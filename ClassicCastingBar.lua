@@ -24,12 +24,13 @@ local function HookOnEventPlayer(self, event, ...)
         self.newBackground:SetAllPoints()
         self.newBackground:SetColorTexture(0, 0, 0, 0.4)
     end
-    if ( self.barType == "interrupted" ) then
+    if ( self.barType == "interrupted" or event == "UNIT_SPELLCAST_INTERRUPTED") then
         self:SetStatusBarColor(1, 0, 0, 1);
         self.Spark:Show()
         if (ClearCastOnInterrupt) then
             self:SetValue(100)
         end
+        return
        -- self:HideSpark()
     elseif (self.barType == "channel" or event == "UNIT_SPELLCAST_STOP") then
         self:SetStatusBarColor(0, 1, 0, 1);
