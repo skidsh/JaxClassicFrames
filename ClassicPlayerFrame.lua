@@ -5,15 +5,15 @@ local PlayerName = PlayerName
 local PlayerFrame = PlayerFrame
 local PlayerLevelText = PlayerLevelText
 local PlayerHitIndicator = PlayerHitIndicator
-local PlayerFrameManaBar = PlayerFrameManaBar
-local PlayerFrameHealthBar = PlayerFrameHealthBar
+local PlayerFrameManaBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar
+local PlayerFrameHealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar
 local SetTextStatusBarText = SetTextStatusBarText
-local PlayerFrameManaBarText = PlayerFrameManaBarText
-local PlayerFrameHealthBarText = PlayerFrameHealthBarText
-local PlayerFrameManaBarTextLeft = PlayerFrameManaBarTextLeft
-local PlayerFrameManaBarTextRight = PlayerFrameManaBarTextRight
-local PlayerFrameHealthBarTextLeft = PlayerFrameHealthBarTextLeft
-local PlayerFrameHealthBarTextRight = PlayerFrameHealthBarTextRight
+local PlayerFrameManaBarText = PlayerFrameManaBar.ManaBarText
+local PlayerFrameHealthBarText = PlayerFrameHealthBar.TextString
+local PlayerFrameManaBarTextLeft = PlayerFrameManaBar.LeftText
+local PlayerFrameManaBarTextRight = PlayerFrameManaBar.RightText
+local PlayerFrameHealthBarTextLeft = PlayerFrameHealthBar.LeftText
+local PlayerFrameHealthBarTextRight = PlayerFrameHealthBar.RightText
 local ranOnce = false
 
 function GetAtlasForBar(self)
@@ -91,8 +91,8 @@ local function RunOncePlayer()
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge)
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait)
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon)
-		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarMask)
-		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarMask)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar.ManaBarMask)
+		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar.HealthBarMask)
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.PlayerFrameHealthBarAnimatedLoss)
 		PermaHide(PlayerFrameManaBar.FeedbackFrame)
 		PermaHide(PlayerFrame.threatIndicator)

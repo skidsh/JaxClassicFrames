@@ -130,7 +130,7 @@ function ApplyClassicFrame(frame)
 
 			local powerColor = GetPowerBarColor(UnitPowerType(frame.totFrame.unit))
 
-			frame.totFrame.HealthBarMask:Hide()
+			frame.totFrame.HealthBar.HealthBarMask:Hide()
 			frame.totFrame.HealthBar:ClearAllPoints()
 			frame.totFrame.HealthBar:SetPoint("TOPRIGHT", -29, -15)
 			frame.totFrame.HealthBar:SetSize(46, 7)
@@ -138,7 +138,7 @@ function ApplyClassicFrame(frame)
 			frame.totFrame.HealthBar:SetStatusBarColor(0, 1, 0);
 			frame.totFrame.HealthBar:SetFrameLevel(1)
 
-			frame.totFrame.ManaBarMask:Hide()
+			frame.totFrame.ManaBar.ManaBarMask:Hide()
 			frame.totFrame.ManaBar:ClearAllPoints()
 			frame.totFrame.ManaBar:SetPoint("TOPRIGHT", -29, -23)
 			frame.totFrame.ManaBar:SetSize(46, 7)
