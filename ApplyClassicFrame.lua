@@ -85,8 +85,8 @@ function ApplyClassicFrame(frame)
 
 	hooksecurefunc(frame, "CheckClassification", function()
 		CreateNameBackground()
+		frame.TargetFrameContainer.FrameTexture:Hide()
 		if (frame.TargetFrameContainer.ClassicTexture == nil) then
-			frame.TargetFrameContainer.FrameTexture:Hide()
 			frame.TargetFrameContainer.ClassicTexture = frame.TargetFrameContainer:CreateTexture(nil, "ARTWORK")
 		end
 		frame.TargetFrameContainer.ClassicTexture:ClearAllPoints()
@@ -95,7 +95,7 @@ function ApplyClassicFrame(frame)
 		frame.TargetFrameContainer.ClassicTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
 		--<TexCoords left="0.09375" right="1.0" top="0" bottom="0.78125"/>
 		frame.TargetFrameContainer.ClassicTexture:SetTexCoord(0.09375, 1, 0, 0.78125)
-		frame.TargetFrameContainer.FrameTexture = frame.TargetFrameContainer.ClassicTexture
+		frame.TargetFrameContainer.ClassicTexture:SetVertexColor(frame.TargetFrameContainer.FrameTexture:GetVertexColor())
 		frame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Hide()
 		frame.TargetFrameContainer.Portrait:SetSize(64, 64)
 		frame.TargetFrameContainer:SetFrameStrata("MEDIUM")
