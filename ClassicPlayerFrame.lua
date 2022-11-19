@@ -84,6 +84,15 @@ PlayerFrame.Background:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 86, -26);
 PlayerFrame.Background:SetSize(119, 41)
 PlayerFrame.Background:SetColorTexture(0, 0, 0, 0.5)
 
+local attackIconGlow = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual:CreateTexture(nil, "ARTWORK")
+PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.AttackIconGlow = attackIconGlow;
+attackIconGlow:SetTexture("Interface\\CharacterFrame\\UI-StateIcon");
+attackIconGlow:SetTexCoord(0.5, 1.0, 0.5, 1)
+attackIconGlow:SetBlendMode("ADD")
+attackIconGlow:SetSize(32, 32)
+attackIconGlow:ClearAllPoints();
+attackIconGlow:SetPoint("TOPLEFT", PlayerLevelText, "TOPLEFT", -9, 12)
+
 local function RunOncePlayer()
 	if (not ranOnce) then
 		ranOnce = true
@@ -138,11 +147,21 @@ hooksecurefunc("PlayerFrame_ToPlayerArt", function()
 
  hooksecurefunc("PlayerFrame_UpdateRolesAssigned", function()
 	local roleIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.RoleIcon;
-	roleIcon:SetShown(true);
-	roleIcon:ClearAllPoints();
-	roleIcon:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.LeaderIcon, "CENTER", 15, 0)
+	local role =  UnitGroupRolesAssigned("player");
+	local hasIcon = false;
 
+	roleIcon:SetSize(19, 19)
+	roleIcon:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES")
+	roleIcon:ClearAllPoints();
+	roleIcon:SetPoint("TOPLEFT", 75, -20)
+	if ( role == "TANK" or role == "HEALER" or role == "DAMAGER") then
+		roleIcon:SetTexCoord(GetTexCoordsForRoleSmallCircle(role));
+		hasIcon = true
+	end
+
+	roleIcon:SetShown(hasIcon);
 	PlayerLevelText:SetShown(true);
+	PlayerFrame_UpdateStatus()
  end)
 
 local function holyPower(self)
@@ -155,3 +174,56 @@ local function alternatePower(self)
 end
 hooksecurefunc("AlternatePowerBar_OnEvent", alternatePower)
 PaladinPowerBarFrame:HookScript("OnEvent", holyPower)
+
+hooksecurefunc("PlayerFrame_UpdateStatus", function()
+	local attackIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.AttackIcon;
+	local attackIconGlow = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.AttackIconGlow;
+	local restIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.RestIcon;
+	local restLoop = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop;
+	restLoop:Hide();
+
+	if (restIcon == nil) then
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.RestIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual:CreateTexture(nil, "OVERLAY")
+		restIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.RestIcon
+	end
+
+	attackIcon:SetDrawLayer("ARTWORK", 1)
+	attackIcon:SetTexture("Interface\\CharacterFrame\\UI-StateIcon");
+	attackIcon:SetTexCoord(0.5, 1.0, 0, 0.5)
+	attackIcon:SetSize(32, 32)
+	attackIcon:ClearAllPoints();
+	attackIcon:SetPoint("TOPLEFT", PlayerLevelText, "TOPLEFT", -9, 12)
+
+	restIcon:SetTexture("Interface\\CharacterFrame\\UI-StateIcon")
+	restIcon:SetTexCoord(0, 0.5, 0, 0.421875)
+	restIcon:SetSize(31, 33)
+	restIcon:ClearAllPoints();
+	restIcon:SetPoint("TOPLEFT", PlayerLevelText, "TOPLEFT", -9, 12)
+
+	PlayerFrame.inCombat = UnitAffectingCombat("player")
+	if (IsResting()) then
+		restIcon:Show()
+
+		attackIcon:Hide()
+		attackIconGlow:Hide()
+		PlayerLevelText:Hide()
+	elseif (PlayerFrame.inCombat) then
+		attackIcon:Show()
+		attackIconGlow:Show()
+
+		PlayerLevelText:Hide()
+		restIcon:Hide()
+	else
+		PlayerLevelText:Show()
+
+		attackIcon:Hide()
+		attackIconGlow:Hide()
+		restIcon:Hide()
+	end
+end)
+
+hooksecurefunc("PlayerFrame_UpdatePartyLeader", function()
+	local leaderIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.LeaderIcon;
+	leaderIcon:ClearAllPoints()
+	leaderIcon:SetPoint("TOPLEFT", 22, -18)
+end)

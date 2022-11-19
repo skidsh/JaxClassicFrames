@@ -85,6 +85,11 @@ function ApplyClassicFrame(frame)
 
 	hooksecurefunc(frame, "CheckClassification", function()
 		CreateNameBackground()
+
+		local leaderIcon = frame.TargetFrameContent.TargetFrameContentContextual.LeaderIcon;
+		leaderIcon:ClearAllPoints()
+		leaderIcon:SetPoint("TOPRIGHT", -22, -18)
+
 		frame.TargetFrameContainer.FrameTexture:Hide()
 		if (frame.TargetFrameContainer.ClassicTexture == nil) then
 			frame.TargetFrameContainer.ClassicTexture = frame.TargetFrameContainer:CreateTexture(nil, "ARTWORK")
