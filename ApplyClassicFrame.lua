@@ -131,7 +131,9 @@ function ApplyClassicFrame(frame)
 		PositionTargetBars();
 		if (frame.totFrame) then
 			frame.totFrame:ClearAllPoints()
-			frame.totFrame:SetPoint("TOPLEFT", frame, "BOTTOMRIGHT", -83, 17)
+			if (not InCombatLockdown()) then
+				frame.totFrame:SetPoint("TOPLEFT", frame, "BOTTOMRIGHT", -83, 17)
+			end
 			frame.totFrame.FrameTexture:Hide()
 
 			local powerColor = GetPowerBarColor(UnitPowerType(frame.totFrame.unit))

@@ -4,24 +4,27 @@ local TargetFrame = TargetFrame;
 local FocusFrame = FocusFrame;
 
 local function HookOnEventPlayer(self, event, ...)
-    if (self.unit == nil) then return end
-    self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    if (self.unit == "player") then        
-        self.Text:SetPoint("TOPLEFT", 0, 2)
-        self.Text:SetPoint("TOPRIGHT", 0, 2)
+    if (self.type == "player" or self.type == "target")
+    then
+        self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+        if (self.type == "player") then        
+            self.Text:SetPoint("TOPLEFT", 0, 2)
+            self.Text:SetPoint("TOPRIGHT", 0, 2)
+        end
+        if (self.type == "target") then
+            self.Text:SetPoint("TOPLEFT", 0, 4)
+            self.Text:SetPoint("TOPRIGHT", 0, 4)
+        end
     end
-    if (self.unit == "target" or self.unit == "focus") then
-        self.Text:SetPoint("TOPLEFT", 0, 4)
-        self.Text:SetPoint("TOPRIGHT", 0, 4)
-    end
-    if (string.find(self.unit, "nameplate")) then
+    if (self.type == "nameplate") then
+        self.Spark:SetHeight(self:GetHeight()+7)
         self.Icon:ClearAllPoints()
         self.Icon:SetPoint("TOPLEFT", -21, 0)
         self.Icon:SetSize(self:GetHeight(), self:GetHeight())
-        if (not self.newBackground) then            
+        if (not self.newBackground) then
             self.newBackground = self:CreateTexture(nil, "BACKGROUND")
         end
-        self.newBackground:SetAllPoints()
+        self.newBackground:SetAllPoints(self)
         self.newBackground:SetColorTexture(0, 0, 0, 0.4)
     end
     if ( self.barType == "interrupted" or event == "UNIT_SPELLCAST_INTERRUPTED") then
@@ -31,7 +34,6 @@ local function HookOnEventPlayer(self, event, ...)
             self:SetValue(100)
         end
         return
-       -- self:HideSpark()
     elseif (self.barType == "channel" or event == "UNIT_SPELLCAST_STOP") then
         self:SetStatusBarColor(0, 1, 0, 1);
     else
@@ -94,10 +96,12 @@ local function HookSetLook(self, look)
 end
 
 hooksecurefunc(PlayerCastingBarFrame, "SetLook", HookSetLook)
+PlayerCastingBarFrame.type = "player"
 PlayerCastingBarFrame:HookScript("OnEvent", HookOnEventPlayer)
 PermaHide(PlayerCastingBarFrame.Background)
 
-local function HookTargetFrame(frame)
+local function HookTargetFrame(frame, type)
+    frame.spellbar.type = type;
     frame.spellbar:HookScript("OnEvent", HookOnEventTarget)
     PermaHide(frame.spellbar.Background)
 
@@ -110,15 +114,22 @@ local function HookTargetFrame(frame)
     end)
 end
 
-HookTargetFrame(TargetFrame);
-HookTargetFrame(FocusFrame);
+HookTargetFrame(TargetFrame, "target");
+HookTargetFrame(FocusFrame, "target");
 
 hooksecurefunc("CompactUnitFrame_OnLoad", function(frame, unit)
     if ( frame.castBar ) then
+        frame.castBar.type = "nameplate";
+        frame.castBar.Background:Hide()
+        
+        for barType, barTypeInfo in pairs(CASTING_BAR_TYPES) do
+            CASTING_BAR_TYPES[barType].filling = "Interface\\TargetingFrame\\UI-StatusBar"
+            CASTING_BAR_TYPES[barType].full = "Interface\\TargetingFrame\\UI-StatusBar"
+        end
+        
         frame.castBar:HookScript("OnEvent", HookOnEventPlayer)
     end
 end)
-
 hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", function(self, options)
     HookOnEventPlayer(self.castBar)
 end)
