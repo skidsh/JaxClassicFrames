@@ -71,6 +71,9 @@ PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexCoord(1, 0.09375, 0, 0.78125
 PlayerFrame.PlayerFrameContainer:SetFrameLevel(4)
 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual:SetFrameLevel(5)
 PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetSize(64, 64)
+PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetDrawLayer("BACKGROUND")
+PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:SetDrawLayer("BACKGROUND")
 
 PlayerFrameHealthBarText:SetParent(PlayerFrame.PlayerFrameContainer)
 PlayerFrameManaBarText:SetParent(PlayerFrame.PlayerFrameContainer)
@@ -227,3 +230,15 @@ hooksecurefunc("PlayerFrame_UpdatePartyLeader", function()
 	leaderIcon:ClearAllPoints()
 	leaderIcon:SetPoint("TOPLEFT", 22, -18)
 end)
+
+if (IsAddOnLoaded("BigDebuffs")) then
+	hooksecurefunc(BigDebuffs, "UNIT_AURA", function(self, unit) 
+		local frame = self.UnitFrames[unit]
+   		 if not frame then return end
+		 if frame.mask then
+			if frame.unit == "player" then
+				frame.mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+			end
+		 end
+	end)
+end

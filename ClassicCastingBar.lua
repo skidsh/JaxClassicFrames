@@ -117,15 +117,14 @@ end
 HookTargetFrame(TargetFrame, "target");
 HookTargetFrame(FocusFrame, "target");
 
+hooksecurefunc(CastingBarMixin, "OnEvent", function(self, barType)
+    self:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+end)
+
 hooksecurefunc("CompactUnitFrame_OnLoad", function(frame, unit)
     if ( frame.castBar ) then
         frame.castBar.type = "nameplate";
         frame.castBar.Background:Hide()
-        
-        for barType, barTypeInfo in pairs(CASTING_BAR_TYPES) do
-            CASTING_BAR_TYPES[barType].filling = "Interface\\TargetingFrame\\UI-StatusBar"
-            CASTING_BAR_TYPES[barType].full = "Interface\\TargetingFrame\\UI-StatusBar"
-        end
         
         frame.castBar:HookScript("OnEvent", HookOnEventPlayer)
     end
