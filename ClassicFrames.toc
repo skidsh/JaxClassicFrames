@@ -1,10 +1,11 @@
-## Interface: 100002
+## Interface: 100105
 ## Title: Classic Frames
 ## Author: Jax
-## Version: v1.0.14
+## Version: v1.0.15
 
 ClassicPlayerFrame.lua
 ApplyClassicFrame.lua
 ClassicTargetFrame.lua
 ClassicFocusFrame.lua
 ClassicCastingBar.lua
+RogueComboFix.lua

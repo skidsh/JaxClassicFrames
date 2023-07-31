@@ -4,6 +4,12 @@ function PermaHide(frameToHide)
 		frameToHide:Hide()
 	end)
 end
+function PermaShow(frameToShow)
+	frameToShow:Show()
+	hooksecurefunc(frameToShow, "Hide", function()
+		frameToShow:Show()
+	end)
+end
 
 function ApplyClassicFrame(frame)
 	local contextual = frame.TargetFrameContent.TargetFrameContentContextual;

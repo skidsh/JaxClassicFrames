@@ -61,13 +61,23 @@ local function updateBarColor(self, r, g, b, a)
 		self:SetStatusBarColor(color.r, color.g, color.b)
 	end
 end
-
 PlayerFrame.PlayerFrameContainer.FrameTexture:ClearAllPoints()
 PlayerFrame.PlayerFrameContainer.FrameTexture:SetPoint("TOPLEFT", PlayerFrame.PlayerFrameContainer, "TOPLEFT", -20, -5)
 PlayerFrame.PlayerFrameContainer.FrameTexture:SetSize(232, 100)
 PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
 --<TexCoords left="1.0" right="0.09375" top="0" bottom="0.78125"/>
 PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexCoord(1, 0.09375, 0, 0.78125)
+
+local alternate = PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture;
+if (alternate)
+then
+	alternate:ClearAllPoints()
+	alternate:SetPoint("TOPLEFT", PlayerFrame.PlayerFrameContainer, "TOPLEFT", -20, -5)
+	alternate:SetSize(232, 100)
+	alternate:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
+	--<TexCoords left="1.0" right="0.09375" top="0" bottom="0.78125"/>
+	alternate:SetTexCoord(1, 0.09375, 0, 0.78125)
+end
 PlayerFrame.PlayerFrameContainer:SetFrameLevel(4)
 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual:SetFrameLevel(5)
 PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetSize(64, 64)
@@ -108,9 +118,6 @@ local function RunOncePlayer()
 		PermaHide(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.PlayerFrameHealthBarAnimatedLoss)
 		PermaHide(PlayerFrameManaBar.FeedbackFrame)
 		PermaHide(PlayerFrame.threatIndicator)
-		if (GetCVar("comboPointLocation") == "1") then
-			PermaHide(ComboPointPlayerFrame)
-		end
 	end
 end
 
@@ -171,11 +178,13 @@ local function holyPower(self)
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", 10, 15)
 end
-local function alternatePower(self)
-	self:ClearAllPoints()
-	self:SetPoint("TOPLEFT", 30, 5)
-end
-hooksecurefunc("AlternatePowerBar_OnEvent", alternatePower)
+-- local function alternatePower(self)
+-- 	self:ClearAllPoints()
+-- 	self:SetPoint("TOPLEFT", 30, 5)
+-- end
+
+-- hooksecurefunc(AlternatePowerBar, "OnEvent", alternatePower)
+
 PaladinPowerBarFrame:HookScript("OnEvent", holyPower)
 
 hooksecurefunc("PlayerFrame_UpdateStatus", function()
@@ -231,14 +240,14 @@ hooksecurefunc("PlayerFrame_UpdatePartyLeader", function()
 	leaderIcon:SetPoint("TOPLEFT", 22, -18)
 end)
 
-if (IsAddOnLoaded("BigDebuffs")) then
-	hooksecurefunc(BigDebuffs, "UNIT_AURA", function(self, unit) 
-		local frame = self.UnitFrames[unit]
-   		 if not frame then return end
-		 if frame.mask then
-			if frame.unit == "player" then
-				frame.mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-			end
-		 end
-	end)
-end
+-- if (IsAddOnLoaded("BigDebuffs")) then
+-- 	hooksecurefunc(BigDebuffs, "UNIT_AURA", function(self, unit) 
+-- 		local frame = self.UnitFrames[unit]
+--    		 if not frame then return end
+-- 		 if frame.mask then
+-- 			if frame.unit == "player" then
+-- 				frame.mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+-- 			end
+-- 		 end
+-- 	end)
+-- end
