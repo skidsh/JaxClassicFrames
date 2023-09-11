@@ -1,7 +1,7 @@
-## Interface: 100105
+## Interface: 100107
 ## Title: Classic Frames
 ## Author: Jax
-## Version: v1.0.15
+## Version: v1.0.17
 
 ClassicPlayerFrame.lua
 ApplyClassicFrame.lua

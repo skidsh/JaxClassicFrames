@@ -29,6 +29,7 @@ function ApplyClassicFrame(frame)
 	end
 	
 	local function PositionTargetBars()
+		if InCombatLockdown() then return end
 		local powerColor = GetPowerBarColor(UnitPowerType(frame.unit))
 
 		local FrameManaBar = frame.TargetFrameContent.TargetFrameContentMain.ManaBar;
@@ -91,6 +92,7 @@ function ApplyClassicFrame(frame)
 
 	hooksecurefunc(frame, "CheckClassification", function()
 		CreateNameBackground()
+		if InCombatLockdown() then return end
 
 		local leaderIcon = frame.TargetFrameContent.TargetFrameContentContextual.LeaderIcon;
 		leaderIcon:ClearAllPoints()
@@ -136,6 +138,7 @@ function ApplyClassicFrame(frame)
 	end
 
 	hooksecurefunc(frame, "Update", function()
+		if InCombatLockdown() then return end
 		PositionTargetBars();
 		if (frame.totFrame) then
 			frame.totFrame:ClearAllPoints()

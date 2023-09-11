@@ -175,8 +175,10 @@ hooksecurefunc("PlayerFrame_ToPlayerArt", function()
  end)
 
 local function holyPower(self)
-	self:ClearAllPoints()
-	self:SetPoint("TOPLEFT", 10, 15)
+	if self then		
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", 10, 15)
+	end
 end
 -- local function alternatePower(self)
 -- 	self:ClearAllPoints()
@@ -185,7 +187,7 @@ end
 
 -- hooksecurefunc(AlternatePowerBar, "OnEvent", alternatePower)
 
-PaladinPowerBarFrame:HookScript("OnEvent", holyPower)
+holyPower(PaladinPowerBarFrame);
 
 hooksecurefunc("PlayerFrame_UpdateStatus", function()
 	local attackIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.AttackIcon;
