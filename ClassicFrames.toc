@@ -1,11 +1,50 @@
 ## Interface: 100107
-## Title: Classic Frames
-## Author: Jax
-## Version: v1.0.17
+## Title: |cFF99CC01Jax|r Classic Frames
+## Author: |cFF99CC01Jax|r
+## Version: v2.0.0
+## IconTexture: 133345
 
-ClassicPlayerFrame.lua
-ApplyClassicFrame.lua
-ClassicTargetFrame.lua
-ClassicFocusFrame.lua
-ClassicCastingBar.lua
-RogueComboFix.lua
+# Shared
+Shared/JcfUIParent.lua
+Shared/JcfUnitFrame.xml
+
+# Casting Bars
+JcfCastingBarFrame/JcfCastingBarFrame.xml
+
+# Player Frame
+JcfPlayerFrame/JcfPlayerFrame.xml
+
+# Target & Focus Frame
+JcfTargetFrame/JcfTargetFrame.xml
+
+# Pet Frame
+JcfPetFrame/JcfPetFrame.xml
+
+# Alternate Mana Bar
+JcfAlternatePowerBar/JcfAlternatePowerBar.xml
+
+# Class Resource Bars
+# Base
+JcfClassResourceBar/JcfClassPowerBar.xml
+JcfClassResourceBar/JcfClassResourceBarTemplate.xml
+# Warlock Shards
+ JcfClassResourceBar/Classes/Warlock/JcfShardBar.xml    
+# # Monk Chi Orbs
+ JcfClassResourceBar/Classes/Monk/JcfMonkHarmonyBar.xml
+# # Paladin Holy Power
+ JcfClassResourceBar/Classes/Paladin/JcfPaladinPowerBar.xml
+# # Rogue Combo Points
+ JcfClassResourceBar/Classes/Rogue/JcfRogueComboPointBar.xml    
+# # Druid Combo Points
+ JcfClassResourceBar/Classes/Druid/JcfDruidComboPointBar.xml
+# # Mage Arcane Orbs
+ JcfClassResourceBar/Classes/Mage/JcfMageArcaneChargesBar.xml
+# # Evoker Essence
+ JcfClassResourceBar/Classes/Evoker/JcfEssenceFramePlayer.xml
+# # DeathKnight Runes
+ JcfClassResourceBar/Classes/DeathKnight/JcfRuneFrame.xml
+# # Shaman Runes
+ JcfClassResourceBar/Classes/Shared/JcfTotemFrame.xml
+
+# Util
+Shared/JcfUtil.lua
