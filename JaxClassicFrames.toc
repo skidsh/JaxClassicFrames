@@ -1,7 +1,7 @@
 ## Interface: 100107
 ## Title: |cFF99CC01Jax|r Classic Frames
 ## Author: |cFF99CC01Jax|r
-## Version: v2.0.0
+## Version: v2.0.1
 ## IconTexture: 133345
 
 # Shared
