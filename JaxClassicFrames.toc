@@ -1,8 +1,12 @@
 ## Interface: 100107
 ## Title: |cFF99CC01Jax|r Classic Frames
 ## Author: |cFF99CC01Jax|r
-## Version: v2.0.1
+## Version: v2.0.2
 ## IconTexture: 133345
+## X-Curse-Project-ID: 697735
+
+#Libs
+Lib/libs.xml
 
 # Shared
 Shared/JcfUIParent.lua

@@ -302,20 +302,20 @@
 				<Layers>
 					<!-- Setting textureSubLevel to 2 to ensure things are layered above the StatusBar's BarTexture. -->
 					<Layer level="BACKGROUND" textureSubLevel="2">
-						<Texture parentKey="MyHealPredictionBar" inherits="MyHealPredictionBarTemplate"/>
-						<Texture parentKey="OtherHealPredictionBar" inherits="OtherHealPredictionBarTemplate"/>
-						<Texture parentKey="TotalAbsorbBar" inherits="TotalAbsorbBarTemplate"/>
-						<Texture parentKey="HealAbsorbBar" inherits="HealAbsorbBarTemplate"/>
-						<Texture parentKey="HealAbsorbBarLeftShadow" inherits="HealAbsorbBarLeftShadowTemplate"/>
-						<Texture parentKey="HealAbsorbBarRightShadow" inherits="HealAbsorbBarRightShadowTemplate"/>
+						<Texture parentKey="MyHealPredictionBar" inherits="JcfMyHealPredictionBarTemplate"/>
+						<Texture parentKey="OtherHealPredictionBar" inherits="JcfOtherHealPredictionBarTemplate"/>
+						<Texture parentKey="TotalAbsorbBar" inherits="JcfTotalAbsorbBarTemplate"/>
+						<Texture parentKey="HealAbsorbBar" inherits="JcfHealAbsorbBarTemplate"/>
+						<Texture parentKey="HealAbsorbBarLeftShadow" inherits="JcfHealAbsorbBarLeftShadowTemplate"/>
+						<Texture parentKey="HealAbsorbBarRightShadow" inherits="JcfHealAbsorbBarRightShadowTemplate"/>
 						<Texture parentKey="Background" setAllPoints="true" hidden="true">
 							<Color color="BLACK_FONT_COLOR"/>
 						</Texture>
 					</Layer>
 					<Layer level="ARTWORK">
-						<Texture parentKey="TotalAbsorbBarOverlay" inherits="TotalAbsorbBarOverlayTemplate"/>
-						<Texture parentKey="OverAbsorbGlow" inherits="OverAbsorbGlowTemplate"/>
-						<Texture parentKey="OverHealAbsorbGlow" inherits="OverHealAbsorbGlowTemplate"/>
+						<Texture parentKey="TotalAbsorbBarOverlay" inherits="JcfTotalAbsorbBarOverlayTemplate"/>
+						<Texture parentKey="OverAbsorbGlow" inherits="JcfOverAbsorbGlowTemplate"/>
+						<Texture parentKey="OverHealAbsorbGlow" inherits="JcfOverHealAbsorbGlowTemplate"/>
 					</Layer>
 					<Layer level="OVERLAY" textureSubLevel="2">
 						<MaskTexture parentKey="HealthBarMask" atlas="UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Mask" useAtlasSize="true" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
@@ -358,7 +358,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="BACKGROUND">
-						<Texture parentKey="ManaCostPredictionBar" inherits="MyManaCostPredictionBarTemplate"/>
+						<Texture parentKey="ManaCostPredictionBar" inherits="JcfMyManaCostPredictionBarTemplate"/>
 					</Layer>
 					<Layer level="OVERLAY" textureSubLevel="3">
 						<MaskTexture parentKey="ManaBarMask" atlas="UI-HUD-UnitFrame-Player-PortraitOn-Bar-Mana-Mask" useAtlasSize="true" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE" texelSnappingBias="0.0" snapToPixelGrid="false">
