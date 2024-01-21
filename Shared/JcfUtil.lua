@@ -50,12 +50,20 @@ function JcfUtil_AlwaysSync(parent, child, xOffset, yOffset)
     child:SetUserPlaced(true);
     child:ClearAllPoints();
     child:SetPoint("CENTER", parent, "CENTER", xOffset, yOffset);
+    child:SetScale(parent:GetScale());
+
     hooksecurefunc(parent, "SetPoint", function(frame, ...)
         if JaxClassicFrames and JaxClassicFrames:IsFrameDisabled(child) then
             return
         end
         child:ClearAllPoints();
         child:SetPoint("CENTER", parent, "CENTER", xOffset, yOffset);
+    end)
+    hooksecurefunc(parent, "SetScale", function(frame, s)
+        if (child:GetName() == "JcfCastingBarFrame") then
+            s = s * JaxClassicFrames.db.profile.player.castBarScale;
+        end
+        child:SetScale(s);
     end)
     hooksecurefunc(parent, "HighlightSystem", function (frame)
         if JaxClassicFrames and JaxClassicFrames:IsFrameDisabled(child) then

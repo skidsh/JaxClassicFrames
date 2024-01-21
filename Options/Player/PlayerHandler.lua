@@ -75,7 +75,8 @@ function JCFPlayerSettings:RebuildFrames()
     spellbar:SetMinMaxValues(0,1)
     spellbar:SetValue(1)
     spellbar.Text:SetText("Moving")
-    spellbar:SetScale(GetSettings().castBarScale)
+    local blizzScale = _G[JcfFramesToSyncAndHide["JcfCastingBarFrame"].name]:GetScale();
+    spellbar:SetScale(blizzScale * GetSettings().castBarScale)
 
     JcfUnitFramePortrait_Update(_G["JcfPlayerFrame"])
 
