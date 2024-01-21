@@ -36,7 +36,7 @@
 						<Anchor point="TOPLEFT" x="42" y="-12"/>
 					</Anchors>
 				</Texture>
-                <MaskTexture parentKey="JcfPlayerPortraitMask" atlas="UI-HUD-UnitFrame-Player-Portrait-Mask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+                <MaskTexture parentKey="JcfPlayerPortraitMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
                     <Size x="64" y="64"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="42" y="-12"/>

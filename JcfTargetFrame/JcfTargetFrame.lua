@@ -108,9 +108,30 @@ end
 function JcfTargetFrame_Update (self)
 	-- This check is here so the frame will hide when the target goes away
 	-- even if some of the functions below are hooked by addons.
-	if ( not UnitExists(self.unit) and not ShowBossFrameWhenUninteractable(self.unit) ) then
+	if (not UnitExists(self.unit) and not ShowBossFrameWhenUninteractable(self.unit)) then
 		self:Hide()
 	else
+		if (self.unit == "target") then
+			if (JCFTargetSettings:GetClassColorHealthEnabled()) then
+				local _, classKey = UnitClass("target")
+				local r,g,b,_ = GetClassColor(classKey)
+				self.HealthBar.lockColor = true
+				self.HealthBar:SetStatusBarColor(r, g, b);
+			else
+				self.HealthBar:SetStatusBarColor(0, 1, 0);
+			end
+		end
+		if (self.unit == "focus") then
+			if (JCFFocusSettings:GetClassColorHealthEnabled()) then
+				local _, classKey = UnitClass("focus")
+				local r,g,b,_ = GetClassColor(classKey)
+				self.HealthBar.lockColor = true
+				self.HealthBar:SetStatusBarColor(r, g, b);
+			else
+				self.HealthBar:SetStatusBarColor(0, 1, 0);
+			end
+		end
+
 		self:Show()
 
 		-- Moved here to avoid taint from functions below
@@ -287,7 +308,11 @@ function JcfTargetFrame_UpdateLevelTextAnchor (self, targetLevel)
 end
 
 function JcfTargetFrame_CheckFaction (self)
-	if ( not UnitPlayerControlled(self.unit) and UnitIsTapDenied(self.unit) ) then
+	if (self.unit == "target" and JCFTargetSettings ~= nil and JCFTargetSettings:GetHideNameBackground()) then
+		self.nameBackground:SetVertexColor(0, 0, 0, 0.5);
+	elseif (self.unit == "focus" and JCFFocusSettings ~= nil and JCFFocusSettings:GetHideNameBackground()) then
+		self.nameBackground:SetVertexColor(0, 0, 0, 0.5);
+	elseif (not UnitPlayerControlled(self.unit) and UnitIsTapDenied(self.unit)) then
 		self.nameBackground:SetVertexColor(0.5, 0.5, 0.5);
 		if ( self.portrait ) then
 			self.portrait:SetVertexColor(0.5, 0.5, 0.5);
@@ -795,50 +820,11 @@ function JcfTargetFrame_UpdateDebuffAnchor(self, debuffName, index, numBuffs, an
 end
 
 function JcfTargetFrame_HealthUpdate (self, elapsed, unit)
-	if ( UnitIsPlayer(unit) ) then
-		if ( (self.unitHPPercent > 0) and (self.unitHPPercent <= 0.2) ) then
-			local alpha = 255;
-			local counter = self.statusCounter + elapsed;
-			local sign    = self.statusSign;
 
-			if ( counter > 0.5 ) then
-				sign = -sign;
-				self.statusSign = sign;
-			end
-			counter = mod(counter, 0.5);
-			self.statusCounter = counter;
-
-			if ( sign == 1 ) then
-				alpha = (127  + (counter * 256)) / 255;
-			else
-				alpha = (255 - (counter * 256)) / 255;
-			end
-			if ( self.portrait ) then
-				self.portrait:SetAlpha(alpha);
-			end
-		end
-	end
 end
 
 function JcfTargetHealthCheck (self)
-	if ( UnitIsPlayer(self.unit) ) then
-		local unitHPMin, unitHPMax, unitCurrHP;
-		local parent = self:GetParent();
-		unitHPMin, unitHPMax = self:GetMinMaxValues();
-		unitCurrHP = self:GetValue();
-		parent.unitHPPercent = unitCurrHP / unitHPMax;
-		if ( parent.portrait ) then
-			if ( UnitIsDead(self.unit) ) then
-				parent.portrait:SetVertexColor(0.35, 0.35, 0.35, 1.0);
-			elseif ( UnitIsGhost(self.unit) ) then
-				parent.portrait:SetVertexColor(0.2, 0.2, 0.75, 1.0);
-			elseif ( (parent.unitHPPercent > 0) and (parent.unitHPPercent <= 0.2) ) then
-				parent.portrait:SetVertexColor(1.0, 0.0, 0.0);
-			else
-				parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0);
-			end
-		end
-	end
+
 end
 
 function JcfTargetFrameDropDown_Initialize (self)
@@ -918,6 +904,20 @@ function JcfTargetofTarget_Update(self, elapsed)
 				JcfTarget_Spellbar_AdjustPosition(parent.spellbar);
 			end
 		end
+	end
+	if (parent.unit == "target" and JCFTargetSettings:GetTotReanchor()) then
+		local xOff = JCFTargetSettings:GetTotXOffset();
+		local yOff = JCFTargetSettings:GetTotYOffset();
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -35 + xOff, -10 + yOff)
+	elseif (parent.unit == "focus" and JCFFocusSettings:GetTotReanchor()) then
+		local xOff = JCFFocusSettings:GetTotXOffset();
+		local yOff = JCFFocusSettings:GetTotYOffset();
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -35 + xOff, -10 + yOff)
+	else
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -35, -10)
 	end
 end
 
@@ -1028,25 +1028,41 @@ end
 
 function JcfTarget_Spellbar_AdjustPosition(self)
 	local parentFrame = self:GetParent();
-	if ( self.boss ) then
-		self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, 10 );
-	elseif ( parentFrame.haveToT ) then
-		if ( parentFrame.buffsOnTop or parentFrame.auraRows <= 1 ) then
-			self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -21 );
-		else
-			self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
-		end
-	elseif ( parentFrame.haveElite ) then
-		if ( parentFrame.buffsOnTop or parentFrame.auraRows <= 1 ) then
-			self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -5 );
-		else
-			self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
-		end
+	if (self.unit == "target" and JCFTargetSettings ~= nil) then
+		self:SetScale(JCFTargetSettings:GetCastBarScale())
+	end
+	if (self.unit == "focus" and JCFFocusSettings ~= nil) then
+		self:SetScale(JCFFocusSettings:GetCastBarScale())
+	end
+	if (self.unit == "target" and JCFTargetSettings ~= nil and JCFTargetSettings:GetCastBarReanchor()) then
+		local xOff = JCFTargetSettings:GetCastBarXOffset();
+		local yOff = JCFTargetSettings:GetCastBarYOffset();
+		self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25 + xOff, 7 + yOff);
+	elseif (self.unit == "focus" and JCFFocusSettings ~= nil and JCFFocusSettings:GetCastBarReanchor()) then
+		local xOff = JCFFocusSettings:GetCastBarXOffset();
+		local yOff = JCFFocusSettings:GetCastBarYOffset();
+		self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25 + xOff, 7 + yOff);
 	else
-		if ( (not parentFrame.buffsOnTop) and parentFrame.auraRows > 0 ) then
-			self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
+		if ( self.boss ) then
+			self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, 10 );
+		elseif ( parentFrame.haveToT ) then
+			if ( parentFrame.buffsOnTop or parentFrame.auraRows <= 1 ) then
+				self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -21 );
+			else
+				self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
+			end
+		elseif ( parentFrame.haveElite ) then
+			if ( parentFrame.buffsOnTop or parentFrame.auraRows <= 1 ) then
+				self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -5 );
+			else
+				self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
+			end
 		else
-			self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, 7 );
+			if ( (not parentFrame.buffsOnTop) and parentFrame.auraRows > 0 ) then
+				self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
+			else
+				self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, 7 );
+			end
 		end
 	end
 end

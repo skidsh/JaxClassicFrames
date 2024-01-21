@@ -122,6 +122,9 @@ function JcfCastingBarFrame_GetEffectiveStartColor(self, isChannel)
 end
 
 function JcfCastingBarFrame_OnEvent(self, event, ...)
+	if (JaxClassicFrames and JaxClassicFrames:IsFrameDisabled(self)) then
+		return
+	end
 	local arg1 = ...;
 	
 	local unit = self.unit;

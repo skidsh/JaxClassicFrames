@@ -31,7 +31,7 @@ function JcfPlayerFrame_OnLoad(self)
 	healthBarTexture:AddMaskTexture(healthBar.HealthBarMask);
 	healthBarTexture:SetTexelSnappingBias(0);
 	healthBarTexture:SetSnapToPixelGrid(false);
-	
+
 	manaBar.FeedbackFrame:AddMaskTexture(manaBar.ManaBarMask);
 	local manaBarTexture = manaBar:GetStatusBarTexture();
 	manaBarTexture:AddMaskTexture(manaBar.ManaBarMask);
@@ -419,7 +419,6 @@ function JcfPlayerFrame_OnUpdate (self, elapsed)
 		JcfPlayerStatusTexture:SetAlpha(alpha);
 		JcfPlayerStatusGlow:SetAlpha(alpha);
 	end
-
 	--CombatFeedback_OnUpdate(self, elapsed);
 end
 

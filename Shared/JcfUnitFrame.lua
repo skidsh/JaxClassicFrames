@@ -200,8 +200,34 @@ function JcfUnitFrame_Update (self, isParty)
 	JcfUnitFrameManaCostPredictionBars_Update(self);
 end
 
+function JcfUnitFrame_ShouldReplacePortrait(self)
+	if JaxClassicFrames then
+		return self.unit == "player" and JaxClassicFrames.db.profile.player.classPortrait or
+			   self.unit == "target" and JaxClassicFrames.db.profile.target.classPortrait or
+			   self.unit == "focus" and JaxClassicFrames.db.profile.focus.classPortrait or
+			   false
+	end
+
+	return false;
+end
+
 function JcfUnitFramePortrait_Update (self)
 	if ( self.portrait ) then
+		if ( JcfUnitFrame_ShouldReplacePortrait(self) ) then
+			local _, class = UnitClass(self.unit);
+			if ( class ) then
+				local classIconAtlas = GetClassAtlas(class);
+				if ( classIconAtlas ) then
+					self.portrait:SetTexture(nil)
+					self.portrait:SetAtlas(classIconAtlas);
+					return;
+				end
+				-- self.portrait:SetTexture("Interface/TargetingFrame/UI-Classes-Circles")
+				-- self.portrait:SetTexCoord(unpack(CLASS_ICON_TCOORDS[string.upper(class)]));
+				return
+			end
+		end
+		self.portrait:SetTexCoord(0,1,0,1)
 		SetPortraitTexture(self.portrait, self.unit);
 	end
 end
@@ -348,6 +374,9 @@ function JcfUnitFrameManaBar_UpdateType (manaBar)
 	end
 	local unitFrame = manaBar:GetParent();
 	local powerType, powerToken, altR, altG, altB = UnitPowerType(manaBar.unit);
+	if powerType == nil then
+		powerType = 0
+	end
 	local prefix = _G[powerToken];
 	local info = JcfPowerBarColor[powerToken];
 	if ( info ) then
@@ -418,7 +447,7 @@ function JcfUnitFrameHealthBar_Initialize (unit, statusbar, statustext, frequent
 
 	statusbar.unit = unit;
 	SetTextStatusBarText(statusbar, statustext);
-
+	statusbar:SetStatusBarColor(1,1,1,1)
 	statusbar.frequentUpdates = frequentUpdates;
 	if ( frequentUpdates ) then
 		statusbar:RegisterEvent("VARIABLES_LOADED");
