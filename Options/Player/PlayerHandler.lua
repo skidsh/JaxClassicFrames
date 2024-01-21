@@ -89,7 +89,8 @@ function JCFPlayerSettings:RebuildFrames()
 	end
 
 
-    
+    if GetSettings().eliteMode == 0 then
+		JcfPlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame"); end
 	if GetSettings().eliteMode == 1 then
 		JcfPlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare.blp"); end
 	if GetSettings().eliteMode == 3 then

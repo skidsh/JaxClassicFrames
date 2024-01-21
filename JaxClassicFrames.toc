@@ -2,7 +2,7 @@
 ## Title: |cFF99CC01Jax|r Classic Frames
 ## Author: |cFF99CC01Jax|r
 ## SavedVariables: JaxClassicFramesDB
-## Version: v2.1.0
+## Version: v2.1.1
 ## IconTexture: 133345
 ## X-Curse-Project-ID: 697735
 
