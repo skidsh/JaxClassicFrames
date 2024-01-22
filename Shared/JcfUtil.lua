@@ -144,6 +144,10 @@ if (ComboFrame ~= nil) then
     local point, relativeTo, relativePoint, xOfs, yOfs = ComboFrame:GetPoint()
     ComboFrame:ClearAllPoints();
     ComboFrame:SetPoint(point, relativeTo, relativePoint, xOfs+20, yOfs);
+    ComboFrame:SetScale(TargetFrame:GetScale())
+    hooksecurefunc(TargetFrame, "SetScale", function(frame, s)
+        ComboFrame:SetScale(s);
+    end)
 end
 
 local bgWatcher = CreateFrame("Frame", "bgWatcher")

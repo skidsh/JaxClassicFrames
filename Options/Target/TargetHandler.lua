@@ -37,6 +37,14 @@ function JCFTargetSettings:SetHideNameBackground(_, value)
     self:RebuildFrames()
 end
 
+function JCFTargetSettings:GetEliteMode()
+    return GetSettings().eliteMode
+end
+function JCFTargetSettings:SetEliteMode(_, value)
+    GetSettings().eliteMode = value
+    self:RebuildFrames()
+end
+
 function JCFTargetSettings:GetCastBarScale()
     return GetSettings().castBarScale
 end
@@ -126,4 +134,7 @@ function JCFTargetSettings:RebuildFrames()
 
     JcfTargetFrame_Update(JcfTargetFrame)
     JcfTargetFrame_CheckFaction(JcfTargetFrame)
+
+    JcfTargetFrame.overideTexture = GetSettings().eliteMode
+    JcfTargetFrame_CheckClassification(JcfTargetFrame)
 end

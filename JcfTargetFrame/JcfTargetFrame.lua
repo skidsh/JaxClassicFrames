@@ -363,26 +363,35 @@ function JcfTargetFrame_CheckClassification (self, forceNormalTexture)
 	TextStatusBar_UpdateTextString(self.manabar);
 	self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash");
 
-	if ( forceNormalTexture ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
-	elseif ( classification == "minus" ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
-		self.nameBackground:Hide();
-		self.manabar.pauseUpdates = true;
-		self.manabar:Hide();
-		self.manabar.TextString:Hide();
-		self.manabar.LeftText:Hide();
-		self.manabar.RightText:Hide();
-		forceNormalTexture = true;
-	elseif ( classification == "worldboss" or classification == "elite" ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Elite");
-	elseif ( classification == "rareelite" ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare-Elite");
-	elseif ( classification == "rare" ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare");
+	if (self.overideTexture > 0 and UnitIsPlayer(self.unit) ) then
+		if self.overideTexture == 1 then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare.blp"); end
+		if self.overideTexture == 3 then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare-Elite.blp"); end
+		if self.overideTexture == 2 then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Elite.blp"); end
 	else
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
-		forceNormalTexture = true;
+		if ( forceNormalTexture ) then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
+		elseif ( classification == "minus" ) then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
+			self.nameBackground:Hide();
+			self.manabar.pauseUpdates = true;
+			self.manabar:Hide();
+			self.manabar.TextString:Hide();
+			self.manabar.LeftText:Hide();
+			self.manabar.RightText:Hide();
+			forceNormalTexture = true;
+		elseif ( classification == "worldboss" or classification == "elite" ) then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Elite");
+		elseif ( classification == "rareelite" ) then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare-Elite");
+		elseif ( classification == "rare" ) then
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare");
+		else
+			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
+			forceNormalTexture = true;
+		end
 	end
 
 	if ( forceNormalTexture ) then

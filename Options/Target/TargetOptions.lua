@@ -44,6 +44,21 @@ function GetJCFTargetOptions()
                 get = "GetHideNameBackground",
                 set = "SetHideNameBackground",
             },
+            targetEliteMode = {
+                disabled = function() return not JCFTargetSettings:GetEnabled() end,
+                order = 5,
+                name = "Elite Mode (players only)",
+                desc = "Select an Elite Mode style",
+                values = {
+                    [0] = "None",
+                    [1] = "Rare",
+                    [2] = "Elite",
+                    [3] = "Rare Elite"
+                },
+                type = "select",
+                get = "GetEliteMode",
+                set = "SetEliteMode",
+            },
             targetCastBar = {
                 name = "Target Castbar",
                 handler = JCFTargetSettings,

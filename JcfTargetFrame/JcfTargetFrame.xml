@@ -91,7 +91,7 @@
 	<Frame name="JcfTargetBuffFrameTemplate" virtual="true" enableMouse="true">
 		<Size x="21" y="21"/>
 		<Layers>
-			<Layer level="BACKGROUND">
+			<Layer level="OVERLAY">
 				<Texture name="$parentIcon" setAllPoints="true"/>
 			</Layer>
 			<Layer level="ARTWORK">

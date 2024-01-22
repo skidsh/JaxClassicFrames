@@ -44,6 +44,21 @@ function GetJCFFocusOptions()
                 get = "GetHideNameBackground",
                 set = "SetHideNameBackground",
             },
+            focusEliteMode = {
+                disabled = function() return not JCFFocusSettings:GetEnabled() end,
+                order = 5,
+                name = "Elite Mode (players only)",
+                desc = "Select an Elite Mode style",
+                values = {
+                    [0] = "None",
+                    [1] = "Rare",
+                    [2] = "Elite",
+                    [3] = "Rare Elite"
+                },
+                type = "select",
+                get = "GetEliteMode",
+                set = "SetEliteMode",
+            },
             focusCastBar = {
                 name = "Focus Castbar",
                 handler = JCFFocusSettings,

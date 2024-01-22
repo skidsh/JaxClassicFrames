@@ -3,6 +3,7 @@ JCFFocusDefaults = {
     classPortrait = false,
     classColorHealthBar = false,
     hideNameBackground = false,
+    eliteMode = 0,
     castBarScale = 1.0,
     castBarReanchor = false,
     castBarXOffset = 0.0,
