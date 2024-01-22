@@ -109,6 +109,22 @@ function JCFFocusSettings:SetTotReanchor(_, value)
     self:RebuildFrames()
 end
 
+function JCFFocusSettings:GetTotClassColor()
+    return GetSettings().totClassColor
+end
+function JCFFocusSettings:SetTotClassColor(_, value)
+    GetSettings().totClassColor = value
+    self:RebuildFrames()
+end
+
+function JCFFocusSettings:GetTotClassPortrait()
+    return GetSettings().totClassPortrait
+end
+function JCFFocusSettings:SetTotClassPortrait(_, value)
+    GetSettings().totClassPortrait = value
+    self:RebuildFrames()
+end
+
 
 function JCFFocusSettings:RebuildFrames()
     if not JaxClassicFrames.DisableFrames then
@@ -137,4 +153,8 @@ function JCFFocusSettings:RebuildFrames()
 
     JcfFocusFrame.overideTexture = GetSettings().eliteMode
     JcfTargetFrame_CheckClassification(JcfFocusFrame)
+
+    if (JcfFocusFrame.totFrame) then
+        JcfTargetofTarget_Update(JcfFocusFrame.totFrame)
+    end
 end

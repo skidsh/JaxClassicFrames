@@ -94,7 +94,7 @@
 			<Layer level="OVERLAY">
 				<Texture name="$parentIcon" setAllPoints="true"/>
 			</Layer>
-			<Layer level="ARTWORK">
+			<Layer level="OVERLAY">
 				<FontString name="$parentCount" inherits="NumberFontNormalSmall" justifyH="RIGHT">
 					<Anchors>
 						<Anchor point="BOTTOMRIGHT" x="3" y="0"/>
@@ -438,12 +438,21 @@
 				</Texture>
 			</Layer>
 			<Layer level="BORDER">
-				<Texture name="$parentPortrait">
+				<Texture name="$parentPortrait" parentKey="portrait">
 					<Size x="35" y="35"/>
 					<Anchors>
 						<Anchor point="TOPLEFT" x="6" y="-6"/>
 					</Anchors>
 				</Texture>
+				<MaskTexture parentKey="portraitMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+                    <Size x="35" y="35"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-6"/>
+                    </Anchors>
+                    <MaskedTextures>
+                        <MaskedTexture childKey="portrait"/>
+                    </MaskedTextures>
+                </MaskTexture>
 			</Layer>
 		</Layers>
 		<Frames>

@@ -10,5 +10,7 @@ JCFFocusDefaults = {
     castBarYOffset = 0.0,
     totReanchor = false,
     totXOffset = 0.0,
-    totYOffset = 0.0
+    totYOffset = 0.0,
+    totClassColor = false,
+    totClassPortrait = false
 }

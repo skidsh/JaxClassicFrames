@@ -120,8 +120,28 @@ function GetJCFFocusOptions()
                 handler = JCFFocusSettings,
                 type = "group",
                 args = {
-                    focusTotReanchor = {
+                    focusTotClassPortrait = {
+                        order = 1,
+                        width = "full",
+                        name = "Use Class Icon Portrait",
+                        disabled = function() return not JCFFocusSettings:GetEnabled() end,
+                        desc = "Enable or disable class icon portrait for target of target",
+                        type = "toggle",
+                        get = "GetTotClassPortrait",
+                        set = "SetTotClassPortrait",
+                    },
+                    focusTotClassColor = {
                         order = 2,
+                        width = "full",
+                        name = "Class Color Health Bar",
+                        disabled = function() return not JCFFocusSettings:GetEnabled() end,
+                        desc = "Enable or disable class colored health bar on focus target",
+                        type = "toggle",
+                        get = "GetTotClassColor",
+                        set = "SetTotClassColor",
+                    },
+                    focusTotReanchor = {
+                        order = 3,
                         width = "full",
                         name = "Reanchor Target of Focus",
                         disabled = function() return not JCFFocusSettings:GetEnabled() end,
@@ -131,7 +151,7 @@ function GetJCFFocusOptions()
                         set = "SetTotReanchor",
                     },
                     focusTotXOffset = {
-                        order = 3,
+                        order = 4,
                         name = "Target of Focus X offset",
                         desc = "Set target of focus X offset",
                         disabled = function() return not JCFFocusSettings:GetEnabled() or not JCFFocusSettings:GetTotReanchor() end,
@@ -145,7 +165,7 @@ function GetJCFFocusOptions()
                         step = 1,
                     },
                     focusTotYOffset = {
-                        order = 4,
+                        order = 5,
                         name = "Target of Focus Y offset",
                         desc = "Set target of focus Y offset",
                         disabled = function() return not JCFFocusSettings:GetEnabled() or not JCFFocusSettings:GetTotReanchor() end,

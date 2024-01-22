@@ -120,8 +120,28 @@ function GetJCFTargetOptions()
                 handler = JCFTargetSettings,
                 type = "group",
                 args = {
-                    targetTotReanchor = {
+                    targetTotClassPortrait = {
+                        order = 1,
+                        width = "full",
+                        name = "Use Class Icon Portrait",
+                        disabled = function() return not JCFTargetSettings:GetEnabled() end,
+                        desc = "Enable or disable class icon portrait for target of target",
+                        type = "toggle",
+                        get = "GetTotClassPortrait",
+                        set = "SetTotClassPortrait",
+                    },
+                    targetTotClassColor = {
                         order = 2,
+                        width = "full",
+                        name = "Class Color Health Bar",
+                        disabled = function() return not JCFTargetSettings:GetEnabled() end,
+                        desc = "Enable or disable class colored health bar on target of target",
+                        type = "toggle",
+                        get = "GetTotClassColor",
+                        set = "SetTotClassColor",
+                    },
+                    targetTotReanchor = {
+                        order = 3,
                         width = "full",
                         name = "Reanchor Target of Target",
                         disabled = function() return not JCFTargetSettings:GetEnabled() end,
@@ -131,7 +151,7 @@ function GetJCFTargetOptions()
                         set = "SetTotReanchor",
                     },
                     targetTotXOffset = {
-                        order = 3,
+                        order = 4,
                         name = "Target of Target X offset",
                         desc = "Set target of target X offset",
                         disabled = function() return not JCFTargetSettings:GetEnabled() or not JCFTargetSettings:GetTotReanchor() end,
@@ -145,7 +165,7 @@ function GetJCFTargetOptions()
                         step = 1,
                     },
                     targetTotYOffset = {
-                        order = 4,
+                        order = 5,
                         name = "Target of Target Y offset",
                         desc = "Set target of target Y offset",
                         disabled = function() return not JCFTargetSettings:GetEnabled() or not JCFTargetSettings:GetTotReanchor() end,

@@ -205,6 +205,8 @@ function JcfUnitFrame_ShouldReplacePortrait(self)
 		return self.unit == "player" and JaxClassicFrames.db.profile.player.classPortrait or
 			   self.unit == "target" and JaxClassicFrames.db.profile.target.classPortrait or
 			   self.unit == "focus" and JaxClassicFrames.db.profile.focus.classPortrait or
+			   self.unit == "targettarget" and JaxClassicFrames.db.profile.target.totClassPortrait or
+			   self.unit == "focus-target" and JaxClassicFrames.db.profile.focus.totClassPortrait or
 			   false
 	end
 

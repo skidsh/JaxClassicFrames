@@ -116,8 +116,9 @@ function JcfTargetFrame_Update (self)
 				local _, classKey = UnitClass("target")
 				local r,g,b,_ = GetClassColor(classKey)
 				self.HealthBar.lockColor = true
-				self.HealthBar:SetStatusBarColor(r, g, b);
+				self.HealthBar:SetStatusBarColor(r, g, b);				
 			else
+				self.HealthBar.lockColor = false
 				self.HealthBar:SetStatusBarColor(0, 1, 0);
 			end
 		end
@@ -128,6 +129,7 @@ function JcfTargetFrame_Update (self)
 				self.HealthBar.lockColor = true
 				self.HealthBar:SetStatusBarColor(r, g, b);
 			else
+				self.HealthBar.lockColor = false
 				self.HealthBar:SetStatusBarColor(0, 1, 0);
 			end
 		end
@@ -912,6 +914,20 @@ function JcfTargetofTarget_Update(self, elapsed)
 				parent.haveToT = nil;
 				JcfTarget_Spellbar_AdjustPosition(parent.spellbar);
 			end
+		end
+	end
+	if ((parent.unit == "target" and JCFTargetSettings:GetTotClassColor()) or
+		(parent.unit == "focus" and JCFFocusSettings:GetTotClassColor())) then
+		if (self) then
+			local _, classKey = UnitClass(self.unit)
+			local r,g,b,_ = GetClassColor(classKey)
+			_G[self:GetName().."HealthBar"].lockColor = true
+			_G[self:GetName().."HealthBar"]:SetStatusBarColor(r, g, b)
+		end
+	else
+		if (self) then
+			_G[self:GetName().."HealthBar"].lockColor = false
+			_G[self:GetName().."HealthBar"]:SetStatusBarColor(0, 1, 0)
 		end
 	end
 	if (parent.unit == "target" and JCFTargetSettings:GetTotReanchor()) then
