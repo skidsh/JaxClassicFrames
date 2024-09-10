@@ -1,4 +1,3 @@
-
 function JcfUtil_AlwaysHide(frame)
     frame:SetAlpha(0);
 

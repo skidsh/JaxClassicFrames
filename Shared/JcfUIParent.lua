@@ -24,13 +24,13 @@ function JcfRefreshBuffs(frame, unit, numBuffs, suffix, checkCVar)
 	local debuffTotal = 0;
 	local name, icon, count, debuffType, duration, expirationTime;
 
-	local filter;
+	local filter = "HELPFUL";
 	if ( checkCVar and SHOW_CASTABLE_BUFFS == "1" and UnitCanAssist("player", unit) ) then
-		filter = "RAID";
+		filter = filter.."|RAID";
 	end
-
-	for i=1, numBuffs do
-		name, icon, count, debuffType, duration, expirationTime = UnitBuff(unit, i, filter);
+	local i = 0;
+	local function auraProcess(name, icon, c, debuffType, duration, expirationTime)
+		i = i + 1;
 		local buffName = frameName..suffix..i;
 		if ( icon ) then
 			-- if we have an icon to show then proceed with setting up the aura
@@ -52,4 +52,5 @@ function JcfRefreshBuffs(frame, unit, numBuffs, suffix, checkCVar)
 			_G[buffName]:Hide();
 		end
 	end
+	AuraUtil.ForEachAura(unit, filter, numBuffs, auraProcess, false)
 end

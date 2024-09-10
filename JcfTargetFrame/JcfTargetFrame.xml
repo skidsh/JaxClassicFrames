@@ -292,14 +292,14 @@
 					</Layer>
 				</Layers>
 			</Frame>
-			<StatusBar name="$parentHealthBar" inherits="TextStatusBar" parentKey="HealthBar" useParentLevel="true">
+			<StatusBar name="$parentHealthBar" inherits="JcfTextStatusBar" parentKey="HealthBar" useParentLevel="true">
 				<Size x="119" y="12"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-106" y="-41"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TextStatusBar_Initialize(self);
+						JcfTextStatusBar_Initialize(self);
 						self.textLockable = 1;
 						self.cvar = "statusText";
 						self.cvarLabel = "STATUS_TEXT_TARGET";
@@ -347,14 +347,14 @@
 					</Layer>
 				</Layers>
 			</StatusBar>
-			<StatusBar name="$parentManaBar" inherits="TextStatusBar" parentKey="PowerBar" useParentLevel="true">
+			<StatusBar name="$parentManaBar" inherits="JcfTextStatusBar" parentKey="PowerBar" useParentLevel="true">
 				<Size x="119" y="12"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-106" y="-52"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TextStatusBar_Initialize(self);
+						JcfTextStatusBar_Initialize(self);
 						self.textLockable = 1;
 						self.cvar = "statusText";
 						self.cvarLabel = "STATUS_TEXT_TARGET";
@@ -484,7 +484,7 @@
 					<OnLoad function="RaiseFrameLevel"/>
 				</Scripts>
 			</Frame>
-			<StatusBar name="$parentHealthBar" inherits="TextStatusBar">
+			<StatusBar name="$parentHealthBar" inherits="JcfTextStatusBar">
 				<Size x="46" y="7"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-2" y="-15"/>
@@ -497,7 +497,7 @@
 				<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
 				<BarColor r="0" g="1.0" b="0"/>
 			</StatusBar>
-			<StatusBar name="$parentManaBar" inherits="TextStatusBar">
+			<StatusBar name="$parentManaBar" inherits="JcfTextStatusBar">
 				<Size x="46" y="7"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-2" y="-23"/>

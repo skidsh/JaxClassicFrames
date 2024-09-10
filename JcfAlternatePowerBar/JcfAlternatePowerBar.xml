@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\Interface\FrameXML\UI.xsd">
 	<Script file="JcfAlternatePowerBar.lua"/>
-	<StatusBar name="JcfAlternatePowerBarTemplate" inherits="TextStatusBar" virtual="true">
+	<StatusBar name="JcfAlternatePowerBarTemplate" inherits="JcfTextStatusBar" virtual="true">
 		<Size>
 			<AbsDimension x="78" y="12"/>
 		</Size>
@@ -68,7 +68,7 @@
 			<OnLoad function="JcfAlternatePowerBar_OnLoad"/>
 			<OnEvent>
 				JcfAlternatePowerBar_OnEvent(self, event, ...);
-				TextStatusBar_OnEvent(self, event, ...);
+				JcfTextStatusBar_OnEvent(self, event, ...);
 			</OnEvent>
 			<OnUpdate>
 				JcfAlternatePowerBar_OnUpdate(self, elapsed);

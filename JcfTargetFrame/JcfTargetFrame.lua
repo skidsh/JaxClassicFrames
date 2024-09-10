@@ -362,7 +362,7 @@ function JcfTargetFrame_CheckClassification (self, forceNormalTexture)
 	self.nameBackground:Show();
 	self.manabar.pauseUpdates = false;
 	self.manabar:Show();
-	TextStatusBar_UpdateTextString(self.manabar);
+	JcfTextStatusBar_UpdateTextString(self.manabar);
 	self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash");
 
 	if (self.overideTexture > 0 and UnitIsPlayer(self.unit) ) then
@@ -489,15 +489,16 @@ function JcfTargetFrame_UpdateAuras (self)
 	local playerIsTarget = UnitIsUnit(PlayerFrame.unit, self.unit);
 	local selfName = self:GetName();
 	local canAssist = UnitCanAssist("player", self.unit);
-
-	for i = 1, JCF_MAX_TARGET_BUFFS do
-        local buffName, icon, count, debuffType, duration, expirationTime, caster, canStealOrPurge, _ , spellId, _, _, casterIsPlayer, nameplateShowAll = UnitBuff(self.unit, i, nil);
+	local i = 0;
+	AuraUtil.ForEachAura(self.unit, "HELPFUL", JCF_MAX_TARGET_BUFFS, function(...)
+        local buffName, icon, count, debuffType, duration, expirationTime, caster, canStealOrPurge, _ , spellId, _, _, casterIsPlayer, nameplateShowAll = ...;
+		i = i + 1;
         if (buffName) then
             frameName = selfName.."Buff"..(i);
             frame = _G[frameName];
             if ( not frame ) then
                 if ( not icon ) then
-                    break;
+                    return;
                 else
                     frame = CreateFrame("Button", frameName, self, "JcfTargetBuffFrameTemplate");
                     frame.unit = self.unit;
@@ -541,9 +542,9 @@ function JcfTargetFrame_UpdateAuras (self)
                 frame:Hide();
             end
         else
-            break;
+            return;
         end
-	end
+	end)
 
 	for i = numBuffs + 1, JCF_MAX_TARGET_BUFFS do
 		local frame = _G[selfName.."Buff"..i];
@@ -562,8 +563,9 @@ function JcfTargetFrame_UpdateAuras (self)
 	local index = 1;
 
 	local maxDebuffs = self.maxDebuffs or JCF_MAX_TARGET_DEBUFFS;
-	while ( frameNum <= maxDebuffs and index <= maxDebuffs ) do
-	    local debuffName, icon, count, debuffType, duration, expirationTime, caster, _, _, _, _, _, casterIsPlayer, nameplateShowAll = UnitDebuff(self.unit, index, "INCLUDE_NAME_PLATE_ONLY");
+	AuraUtil.ForEachAura(self.unit, "HARMFUL|INCLUDE_NAME_PLATE_ONLY", maxDebuffs, function(...)
+
+	    local debuffName, icon, count, debuffType, duration, expirationTime, caster, _, _, _, _, _, casterIsPlayer, nameplateShowAll = ...;
 		if ( debuffName ) then
 			if ( JcfTargetFrame_ShouldShowDebuffs(self.unit, caster, nameplateShowAll, casterIsPlayer) ) then
 				frameName = selfName.."Debuff"..frameNum;
@@ -612,10 +614,10 @@ function JcfTargetFrame_UpdateAuras (self)
 				end
 			end
 		else
-			break;
+			return;
 		end
 		index = index + 1;
-	end
+	end)
 
 	for i = frameNum, JCF_MAX_TARGET_DEBUFFS do
 		local frame = _G[selfName.."Debuff"..i];
@@ -882,7 +884,7 @@ function JcfTargetFrame_CreateJcfTargetofTarget(self, unit)
 	JcfUnitFrame_Initialize(frame, unit, _G[thisName.."TextureFrameName"], _G[thisName.."Portrait"],
 						 _G[thisName.."HealthBar"], _G[thisName.."TextureFrameHealthBarText"],
 						 _G[thisName.."ManaBar"], _G[thisName.."TextureFrameManaBarText"]);
-	SetTextStatusBarTextZeroText(frame.healthbar, DEAD);
+	SetJcfTextStatusBarTextZeroText(frame.healthbar, DEAD);
 	frame.deadText = _G[thisName.."TextureFrameDeadText"];
 	frame.unconsciousText = _G[thisName.."TextureFrameUnconsciousText"];
 	SecureUnitButton_OnLoad(frame, unit);
@@ -1179,7 +1181,7 @@ function JcfFocusFrame_SetSmallSize(smallSize, onChange)
 		JcfFocusFrame.TOT_AURA_ROW_WIDTH = 80;	-- not as much room for auras with scaled-up ToT frame
 		JcfFocusFrame.spellbar:SetScale(SMALL_FOCUS_UPSCALE);
 		JcfFocusFrameTextureFrameName:SetFontObject(FocusFontSmall);
-		JcfFocusFrameHealthBar.TextString:SetFontObject(TextStatusBarTextLarge);
+		JcfFocusFrameHealthBar.TextString:SetFontObject(JcfTextStatusBarTextLarge);
 		JcfFocusFrameHealthBar.TextString:SetPoint("CENTER", -50, 4);
 		JcfFocusFrameTextureFrameName:SetWidth(120);
 		if ( onChange ) then
@@ -1211,7 +1213,7 @@ function JcfFocusFrame_SetSmallSize(smallSize, onChange)
 		JcfFocusFrame.TOT_AURA_ROW_WIDTH = TOT_AURA_ROW_WIDTH;
 		JcfFocusFrame.spellbar:SetScale(LARGE_FOCUS_SCALE);
 		JcfFocusFrameTextureFrameName:SetFontObject(GameFontNormalSmall);
-		JcfFocusFrameHealthBar.TextString:SetFontObject(TextStatusBarText);
+		JcfFocusFrameHealthBar.TextString:SetFontObject(JcfTextStatusBarText);
 		JcfFocusFrameHealthBar.TextString:SetPoint("CENTER", -50, 3);
 		JcfFocusFrameTextureFrameName:SetWidth(100);
 		if ( onChange ) then

@@ -279,7 +279,7 @@ function JcfUnitFrameManaCostPredictionBars_Update(frame, isStarting, startTime,
             frame.predictedPowerCost = nil;
         end
 	else
-		local costTable = GetSpellPowerCost(spellID);
+		local costTable = C_Spell.GetSpellPowerCost(spellID);
 		for _, costInfo in pairs(costTable) do
 			if (costInfo.type == frame.manabar.powerType) then
 				cost = costInfo.cost;
@@ -427,9 +427,9 @@ function JcfUnitFrameManaBar_UpdateType (manaBar)
 
 	-- Update the manabar text
 	if ( not unitFrame.noTextPrefix ) then
-		SetTextStatusBarTextPrefix(manaBar, prefix);
+		SetJcfTextStatusBarTextPrefix(manaBar, prefix);
 	end
-	TextStatusBar_UpdateTextString(manaBar);
+	JcfTextStatusBar_UpdateTextString(manaBar);
 
 	-- Setup newbie tooltip
 	if ( manaBar.unit ~= "pet") then
@@ -448,7 +448,7 @@ function JcfUnitFrameHealthBar_Initialize (unit, statusbar, statustext, frequent
 	end
 
 	statusbar.unit = unit;
-	SetTextStatusBarText(statusbar, statustext);
+	SetJcfTextStatusBarText(statusbar, statustext);
 	statusbar:SetStatusBarColor(1,1,1,1)
 	statusbar.frequentUpdates = frequentUpdates;
 	if ( frequentUpdates ) then
@@ -474,7 +474,7 @@ end
 
 function JcfUnitFrameHealthBar_OnEvent(self, event, ...)
 	if ( event == "CVAR_UPDATE" ) then
-		TextStatusBar_OnEvent(self, event, ...);
+		JcfTextStatusBar_OnEvent(self, event, ...);
 	elseif ( event == "VARIABLES_LOADED" ) then
 		self:UnregisterEvent("VARIABLES_LOADED");
 		if ( GetCVarBool("predictedHealth") and self.frequentUpdates ) then
@@ -618,7 +618,7 @@ function JcfUnitFrameHealthBar_OnUpdate(self)
 
 				self:SetValue(currValue);
 				self.currValue = currValue;
-				TextStatusBar_UpdateTextString(self);
+				JcfTextStatusBar_UpdateTextString(self);
 				JcfUnitFrameHealPredictionBars_Update(self.unitFrame);
 			end
 		end
@@ -665,12 +665,12 @@ function JcfUnitFrameHealthBar_Update(statusbar, unit)
 			statusbar.currValue = currValue;
 		end
 	end
-	TextStatusBar_UpdateTextString(statusbar);
+	JcfTextStatusBar_UpdateTextString(statusbar);
 	JcfUnitFrameHealPredictionBars_Update(statusbar.unitFrame);
 end
 
 function JcfUnitFrameHealthBar_OnValueChanged(self, value)
-	TextStatusBar_OnValueChanged(self, value);
+	JcfTextStatusBar_OnValueChanged(self, value);
 	HealthBar_OnValueChanged(self, value);
 end
 
@@ -688,7 +688,7 @@ function JcfUnitFrameManaBar_Initialize (unit, statusbar, statustext, frequentUp
 	end
 	statusbar.unit = unit;
 	statusbar.texture = statusbar:GetStatusBarTexture();
-	SetTextStatusBarText(statusbar, statustext);
+	SetJcfTextStatusBarText(statusbar, statustext);
 
 	statusbar.frequentUpdates = frequentUpdates;
 	if ( frequentUpdates ) then
@@ -711,7 +711,7 @@ end
 
 function JcfUnitFrameManaBar_OnEvent(self, event, ...)
 	if ( event == "CVAR_UPDATE" ) then
-		TextStatusBar_OnEvent(self, event, ...);
+		JcfTextStatusBar_OnEvent(self, event, ...);
 	elseif ( event == "VARIABLES_LOADED" ) then
 		self:UnregisterEvent("VARIABLES_LOADED");
 		if ( self.frequentUpdates ) then
@@ -752,7 +752,7 @@ function JcfUnitFrameManaBar_OnUpdate(self)
 				end
 				self:SetValue(currValue);
 				self.currValue = currValue;
-				TextStatusBar_UpdateTextString(self);
+				JcfTextStatusBar_UpdateTextString(self);
 			end
 		end
 	end
@@ -792,7 +792,7 @@ function JcfUnitFrameManaBar_Update(statusbar, unit)
 			statusbar.forceUpdate = true;
 		end
 	end
-	TextStatusBar_UpdateTextString(statusbar);
+	JcfTextStatusBar_UpdateTextString(statusbar);
 end
 
 function JcfUnitFrameThreatIndicator_Initialize(unit, unitFrame, feedbackUnit)

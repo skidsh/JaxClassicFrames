@@ -13,7 +13,7 @@ JCF_ALT_POWER_BAR_PAIR_DISPLAY_INFO = {
 };
 function JcfAlternatePowerBar_OnLoad(self)
 	JcfAlternatePowerBar_Initialize(self);
-	TextStatusBar_Initialize(self);
+	JcfTextStatusBar_Initialize(self);
 	self.textLockable = 1;
 	self.cvar = "statusText";
 	self.cvarLabel = "STATUS_TEXT_PLAYER";
@@ -32,7 +32,7 @@ function JcfAlternatePowerBar_Initialize(self)
 	self.capNumericDisplay = true;
 	self.LeftText = _G[self:GetName().."LeftText"];
 	self.RightText = _G[self:GetName().."RightText"];
-	SetTextStatusBarText(self, _G[self:GetName().."Text"])
+	SetJcfTextStatusBarText(self, _G[self:GetName().."Text"])
 	
 	local info = PowerBarColor[self.powerName];
 	self:SetStatusBarColor(info.r, info.g, info.b);
@@ -66,14 +66,14 @@ function JcfAlternatePowerBar_UpdateValue(self)
 	local currmana = UnitPower(self:GetParent().unit,self.powerIndex);
 	self:SetValue(currmana);
 	self.value = currmana
-	TextStatusBar_OnValueChanged(self, currmana);
-	TextStatusBar_UpdateTextString(self);
+	JcfTextStatusBar_OnValueChanged(self, currmana);
+	JcfTextStatusBar_UpdateTextString(self);
 end
 
 function JcfAlternatePowerBar_UpdateMaxValues(self)
 	local maxmana = UnitPowerMax(self:GetParent().unit,self.powerIndex);
 	self:SetMinMaxValues(0,maxmana);
-	TextStatusBar_UpdateTextString(self);
+	JcfTextStatusBar_UpdateTextString(self);
 end
 
 function JcfAlternatePowerBar_UpdatePowerType(self)

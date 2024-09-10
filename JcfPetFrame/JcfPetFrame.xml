@@ -95,14 +95,14 @@
 					</Frame>
 				</Frames>
 			</Frame>
-			<StatusBar name="JcfPetFrameHealthBar" inherits="TextStatusBar">
+			<StatusBar name="JcfPetFrameHealthBar" inherits="JcfTextStatusBar">
 				<Size x="69" y="8"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" x="47" y="-22"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TextStatusBar_Initialize(self);
+						JcfTextStatusBar_Initialize(self);
 						self.textLockable = 1;
 						self.cvar = "statusText";
 						self.cvarLabel = "STATUS_TEXT_PET";
@@ -111,14 +111,14 @@
 				</Scripts>
 				<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
 			</StatusBar>
-			<StatusBar name="JcfPetFrameManaBar" inherits="TextStatusBar">
+			<StatusBar name="JcfPetFrameManaBar" inherits="JcfTextStatusBar">
 				<Size x="69" y="8"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" x="47" y="-29"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TextStatusBar_Initialize(self);
+						JcfTextStatusBar_Initialize(self);
 						self.textLockable = 1;
 						self.cvar = "statusText";
 						self.cvarLabel = "STATUS_TEXT_PET";
