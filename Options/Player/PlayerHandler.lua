@@ -38,6 +38,14 @@ function JCFPlayerSettings:SetCastBarScale(_, value)
     self:RebuildFrames()
 end
 
+function JCFPlayerSettings:GetCastBarSameColorEnabled()
+    return GetSettings().castBarSameColor
+end
+function JCFPlayerSettings:SetCastBarSameColorEnabled(_, value)
+    GetSettings().castBarSameColor = value
+    self:RebuildFrames()
+end
+
 function JCFPlayerSettings:GetClassColorHealthEnabled()
     return GetSettings().classColorHealthBar
 end

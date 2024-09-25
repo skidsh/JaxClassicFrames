@@ -33,7 +33,7 @@ function JcfOptionsPanelMixin:OnLoad()
     end)
     self:SetPropagateKeyboardInput(true)
 
-	self.Header.Text:SetText("|cFF99CC01 ".."Author".."|r Jax\n".."|cFF99CC01".." Version".."|r "..C_AddOns.GetAddOnMetadata("JaxClassicFrames", "Version"))
+	self.Header.Text:SetText("|cFF4287f5 ".."Author".."|r @Jax\n".."|cFF4287f5".." Version".."|r "..C_AddOns.GetAddOnMetadata("JaxClassicFrames", "Version"))
 	self.Footer.Text:SetText("")
 end
 

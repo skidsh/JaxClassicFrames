@@ -74,6 +74,15 @@ function GetJCFPlayerOptions()
                         set = "SetCastBarScale",
                         softMax = 3
                     },
+                    playerCastBarSameColor = {
+                        order = 6,
+                        width = "full",
+                        name = "Remove Green Color on Success",
+                        desc = "Remove Green Color on Success",
+                        type = "toggle",
+                        get = "GetCastBarSameColorEnabled",
+                        set = "SetCastBarSameColorEnabled",
+                    },
                 }
             }
         },

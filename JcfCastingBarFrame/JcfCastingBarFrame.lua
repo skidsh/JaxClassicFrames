@@ -421,6 +421,7 @@ function JcfCastingBarFrame_UpdateInterruptibleState(self, notInterruptible)
 end
 
 function JcfCastingBarFrame_OnUpdate(self, elapsed)
+	JcfCastingBarFrame_SetUseStartColorForFinished(self, JCFPlayerSettings:GetCastBarSameColorEnabled());
 	if (not self.isInEditMode) then
 		if ( self.casting or self.reverseChanneling) then
 			self.value = self.value + elapsed;

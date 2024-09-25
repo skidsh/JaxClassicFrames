@@ -280,10 +280,12 @@ function JcfUnitFrameManaCostPredictionBars_Update(frame, isStarting, startTime,
         end
 	else
 		local costTable = C_Spell.GetSpellPowerCost(spellID);
-		for _, costInfo in pairs(costTable) do
-			if (costInfo.type == frame.manabar.powerType) then
-				cost = costInfo.cost;
-				break;
+		if (costTable) then
+			for _, costInfo in pairs(costTable) do
+				if (costInfo.type == frame.manabar.powerType) then
+					cost = costInfo.cost;
+					break;
+				end
 			end
 		end
 		frame.predictedPowerCost = cost;

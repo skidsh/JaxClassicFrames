@@ -4,5 +4,6 @@ JCFPlayerDefaults = {
     classColorHealthBar = false,
     eliteMode = 0,
     enableCastBar = true,
-    castBarScale = 1.0
+    castBarScale = 1.0,
+    castBarSameColor = false,
 }
